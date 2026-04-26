@@ -26,9 +26,45 @@
     html, body {
       margin: 0; padding: 0; width: 100%;
       font-family: 'Segoe UI', 'PingFang SC', Arial, sans-serif;
-      background: var(--bg);
+      background: linear-gradient(135deg, #fdf6f0 0%, #ffeef3 25%, #f0f8ff 50%, #fff9f0 75%, #fdf6f0 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
       color: var(--text);
       overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Floating decorative bubbles */
+    .floating-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,200,200,0.3));
+      animation: float 20s infinite ease-in-out;
+    }
+    .bubble:nth-child(1) { width: 80px; height: 80px; left: 10%; top: 20%; animation-delay: 0s; }
+    .bubble:nth-child(2) { width: 60px; height: 60px; left: 80%; top: 40%; animation-delay: -5s; }
+    .bubble:nth-child(3) { width: 100px; height: 100px; left: 60%; top: 70%; animation-delay: -10s; }
+    .bubble:nth-child(4) { width: 50px; height: 50px; left: 30%; top: 80%; animation-delay: -15s; }
+    .bubble:nth-child(5) { width: 70px; height: 70px; left: 90%; top: 10%; animation-delay: -8s; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); opacity: 0.6; }
+      25% { transform: translateY(-30px) translateX(10px); opacity: 0.8; }
+      50% { transform: translateY(-20px) translateX(-10px); opacity: 0.6; }
+      75% { transform: translateY(-40px) translateX(5px); opacity: 0.9; }
     }
 
     /* ===== HEADER ===== */
@@ -236,6 +272,8 @@
       scrollbar-width: none;
       background: var(--header-bg);
       border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 10;
     }
     .type-nav::-webkit-scrollbar { display: none; }
     .type-nav-item {
@@ -483,8 +521,16 @@
   </style>
 </head>
 <body>
+<!-- Floating background decoration -->
+<div class="floating-bg">
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+</div>
 
-<div class="header">
+<div class="header" style="position:relative;z-index:10;">
   <!-- Header top row -->
   <div class="header-top">
     <div class="header-logo">
@@ -536,18 +582,18 @@
 <div class="type-nav" id="type-nav"></div>
 
 <!-- Main content -->
-<div class="main" id="main-content">
+<div class="main" id="main-content" style="position:relative;z-index:10;">
   <div class="loading" id="loading">
     <div class="dot"></div><div class="dot"></div><div class="dot"></div>
     <p>宝宝加载中…</p>
   </div>
 </div>
 
-<div class="reset-section">
+<div class="reset-section" style="position:relative;z-index:10;">
   <button class="reset-btn" id="reset-btn">🗑️ 重置当前角色的图鉴</button>
 </div>
 
-<div class="footer">
+<div class="footer" style="position:relative;z-index:10;">
   <a href="https://jiwusales.github.io/jiwu_menu/" target="_blank">JIWU吉物贩售 →</a>
   &nbsp;|&nbsp;
   <a href="https://jiwusales.github.io/jiwusales_nagano" target="_blank">自嘲熊图鉴</a>
@@ -577,6 +623,8 @@ const ICONS = {
 };
 
 const SHEET_LABELS = {
+  "兔兔": "乌萨奇",
+  "小桃": "飞鼠",
   "師傅": "师傅",
   "獅薩": "狮萨"
 };

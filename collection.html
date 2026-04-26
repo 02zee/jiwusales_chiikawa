@@ -26,49 +26,22 @@
     html, body {
       margin: 0; padding: 0; width: 100%;
       font-family: 'Segoe UI', 'PingFang SC', Arial, sans-serif;
-      background: linear-gradient(-45deg, #ffeef3, #f0f8ff, #fff9f0, #ffe4ec, #e8f4ff);
-      background-size: 500% 500%;
-      animation: gradientShift 12s ease infinite;
+      background: #fdf6f0;
       color: var(--text);
       overflow-x: hidden;
       min-height: 100vh;
     }
 
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    /* Floating decorative bubbles */
-    .floating-bg {
+    /* Fixed background image - Onsen scene */
+    body::before {
+      content: "";
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
+      background: url('bg.jpg') center center / cover no-repeat;
+      z-index: 0;
+      opacity: 0.25;
       pointer-events: none;
-      z-index: 1;
-      overflow: hidden;
-    }
-    .bubble {
-      position: absolute;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), rgba(255,180,180,0.5));
-      box-shadow: 0 4px 20px rgba(215, 116, 133, 0.15);
-      animation: float 20s infinite ease-in-out;
-    }
-    .bubble:nth-child(1) { width: 140px; height: 140px; left: 5%; top: 10%; animation-delay: 0s; }
-    .bubble:nth-child(2) { width: 100px; height: 100px; left: 85%; top: 25%; animation-delay: -3s; }
-    .bubble:nth-child(3) { width: 160px; height: 160px; left: 70%; top: 55%; animation-delay: -7s; }
-    .bubble:nth-child(4) { width: 80px; height: 80px; left: 15%; top: 70%; animation-delay: -10s; }
-    .bubble:nth-child(5) { width: 120px; height: 120px; left: 90%; top: 75%; animation-delay: -5s; }
-    .bubble:nth-child(6) { width: 70px; height: 70px; left: 35%; top: 5%; animation-delay: -12s; }
-    .bubble:nth-child(7) { width: 110px; height: 110px; left: 50%; top: 85%; animation-delay: -8s; }
-    .bubble:nth-child(8) { width: 90px; height: 90px; left: 25%; top: 40%; animation-delay: -15s; }
-    @keyframes float {
-      0%, 100% { transform: translateY(0) translateX(0); opacity: 0.6; }
-      25% { transform: translateY(-50px) translateX(20px); opacity: 0.9; }
-      50% { transform: translateY(-30px) translateX(-20px); opacity: 0.6; }
-      75% { transform: translateY(-60px) translateX(15px); opacity: 1; }
     }
 
     /* ===== HEADER ===== */
@@ -525,18 +498,6 @@
   </style>
 </head>
 <body>
-<!-- Floating background decoration -->
-<div class="floating-bg">
-  <div class="bubble"></div>
-  <div class="bubble"></div>
-  <div class="bubble"></div>
-  <div class="bubble"></div>
-  <div class="bubble"></div>
-  <div class="bubble"></div>
-  <div class="bubble"></div>
-  <div class="bubble"></div>
-</div>
-
 <div class="header" style="position:relative;z-index:10;">
   <!-- Header top row -->
   <div class="header-top">
@@ -883,59 +844,117 @@ function applyFilterAndSearch() {
 }
 
 /* ========== LOAD SHEET DATA ========== */
-function loadSheet(sheet) {
+// CORS proxy list for China network compatibility
+const PROXY_LIST = [
+  "", // direct
+  "https://api.allorigins.win/get?url=",
+  "https://api.codetabs.com/v1/proxy?quest=",
+  "https://thingproxy.freeboard.io/fetch/"
+];
+
+let proxyIndex = 0;
+
+function getProxyUrl(originalUrl) {
+  if (proxyIndex === 0) return originalUrl;
+  return PROXY_LIST[proxyIndex] + encodeURIComponent(originalUrl);
+}
+
+function parseSheetData(text) {
+  const match = text.match(/\{.*\}/s);
+  if (!match) throw new Error("Invalid response");
+  return JSON.parse(match[0]);
+}
+
+function processRows(data) {
+  let rows = data.table.rows || [];
+  if (rows.length > 1) rows = rows.slice(1);
+  return rows.map(row => ({
+    type: row.c[0]?.v || "无类型",
+    name: row.c[1]?.v || "",
+    imgUrl: row.c[3]?.v || "",
+    size: row.c[5]?.v || ""
+  })).filter(it => it.name);
+}
+
+function loadSheet(sheet, retryCount = 0) {
   document.getElementById("loading") && (document.getElementById("main-content").innerHTML =
-    `<div class="loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div><p>宝宝加载中…</p></div>`);
+    `<div class="loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div><p>宝宝加载中${retryCount > 0 ? ` (重试${retryCount})` : ""}…</p></div>`);
 
   if (allData[sheet]) {
     renderCards(sheet);
     return;
   }
 
-  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheet)}`;
-  fetch(url)
-    .then(r => r.text())
-    .then(t => JSON.parse(t.match(/\{.*\}/s)[0]))
-    .then(data => {
-      let rows = data.table.rows || [];
-      if (rows.length > 1) rows = rows.slice(1);
-      allData[sheet] = rows.map(row => ({
-        type: row.c[0]?.v || "无类型",
-        name: row.c[1]?.v || "",
-        imgUrl: row.c[3]?.v || "",
-        size: row.c[5]?.v || ""
-      })).filter(it => it.name);
+  const originalUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheet)}`;
+  const url = getProxyUrl(originalUrl);
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
+
+  fetch(url, { signal: controller.signal })
+    .then(r => {
+      clearTimeout(timeoutId);
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      return r.text();
+    })
+    .then(text => {
+      const data = parseSheetData(text);
+      allData[sheet] = processRows(data);
       renderCards(sheet);
       updateCharTab(sheet);
       updateOverallStats();
+      proxyIndex = 0; // Reset proxy on success
     })
-    .catch(() => {
-      document.getElementById("main-content").innerHTML =
-        `<div class="empty-state"><span class="emoji">😢</span>加载失败，请刷新重试</div>`;
+    .catch(err => {
+      console.error(`Load failed for ${sheet}:`, err);
+      // Try next proxy or retry
+      if (proxyIndex < PROXY_LIST.length - 1) {
+        proxyIndex++;
+        console.log(`Switching to proxy ${proxyIndex}`);
+        loadSheet(sheet, retryCount);
+      } else if (retryCount < 2) {
+        proxyIndex = 0;
+        setTimeout(() => loadSheet(sheet, retryCount + 1), 2000);
+      } else {
+        // Final error
+        document.getElementById("main-content").innerHTML =
+          `<div class="empty-state">
+            <span class="emoji">😢</span>
+            <div>加载失败，请检查网络连接</div>
+            <div style="font-size:13px;color:#888;margin-top:8px;">
+              国内网络可能无法直接访问 Google Sheets<br>
+              建议开启 VPN 或代理后刷新重试
+            </div>
+            <button onclick="location.reload()" style="margin-top:12px;padding:8px 16px;border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:99px;cursor:pointer;">🔄 刷新重试</button>
+          </div>`;
+      }
     });
 }
 
 /* Preload all sheets for tab counts */
 function preloadAll() {
-  SHEET_NAMES.forEach(s => {
+  SHEET_NAMES.forEach((s, idx) => {
     if (allData[s]) return;
-    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(s)}`;
-    fetch(url)
-      .then(r => r.text())
-      .then(t => JSON.parse(t.match(/\{.*\}/s)[0]))
-      .then(data => {
-        let rows = data.table.rows || [];
-        if (rows.length > 1) rows = rows.slice(1);
-        allData[s] = rows.map(row => ({
-          type: row.c[0]?.v || "无类型",
-          name: row.c[1]?.v || "",
-          imgUrl: row.c[3]?.v || "",
-          size: row.c[5]?.v || ""
-        })).filter(it => it.name);
-        updateCharTab(s);
-        updateOverallStats();
-      })
-      .catch(() => {});
+    // Stagger requests to avoid rate limiting
+    setTimeout(() => {
+      const originalUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(s)}`;
+      const url = getProxyUrl(originalUrl);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+      fetch(url, { signal: controller.signal })
+        .then(r => {
+          clearTimeout(timeoutId);
+          if (!r.ok) throw new Error(`HTTP ${r.status}`);
+          return r.text();
+        })
+        .then(text => {
+          const data = parseSheetData(text);
+          allData[s] = processRows(data);
+          updateCharTab(s);
+          updateOverallStats();
+        })
+        .catch(() => {});
+    }, idx * 500); // 500ms delay between each request
   });
 }
 

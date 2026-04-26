@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>吉伊卡哇·我的收藏图鉴</title>
+  <meta property="og:title" content="吉伊卡哇·我的收藏图鉴" />
+  <meta property="og:description" content="点亮你拥有的宝宝吧！(๑•̀∀•́ฅ ✧" />
+  <meta property="og:image" content="https://i.postimg.cc/dV18mp5f/image.png" />
+  <link rel="icon" href="https://i.postimg.cc/3R7nNT0k/icon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="https://i.postimg.cc/L55pFY4d/chiikawaicon.png" />
+  <meta name="theme-color" content="#fdf6f0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <style>
+    :root {
+      --accent: #d77485;
+      --bg: #fdf6f0;
+      --card-bg: #ffffff;
+      --text: #333;
+      --subtext: #888;
+      --border: #e8d5c4;
+      --header-bg: #fff9f5;
+      --shadow: 0 2px 12px rgba(215,116,133,0.10);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0; width: 100%;
+      font-family: 'Segoe UI', 'PingFang SC', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px 0 16px;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      gap: 10px;
+    }
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .header-logo img {
+      height: 36px;
+      width: auto;
+    }
+    .header-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    /* ===== OVERALL STATS BAR ===== */
+    .stats-banner {
+      background: linear-gradient(135deg, #fce4ec 0%, #fdf6f0 60%, #e3f0fb 100%);
+      border-radius: 14px;
+      padding: 10px 16px;
+      margin: 0 0 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .stats-banner .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 56px;
+    }
+    .stats-banner .stat-num {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stats-banner .stat-label {
+      font-size: 10px;
+      color: var(--subtext);
+      margin-top: 2px;
+    }
+    .stats-bar-wrap {
+      flex: 1;
+      min-width: 120px;
+    }
+    .stats-bar-track {
+      background: #f0e0e8;
+      border-radius: 99px;
+      height: 10px;
+      overflow: hidden;
+    }
+    .stats-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #d77485, #f9be3c);
+      border-radius: 99px;
+      transition: width 0.6s cubic-bezier(.4,0,.2,1);
+    }
+    .stats-percent {
+      font-size: 11px;
+      color: var(--accent);
+      font-weight: 700;
+      margin-top: 3px;
+      text-align: right;
+    }
+
+    /* ===== SEARCH & FILTER ===== */
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      padding: 6px 0 10px 0;
+      flex-wrap: wrap;
+    }
+    .search-wrap {
+      flex: 1;
+      min-width: 120px;
+      position: relative;
+    }
+    .search-wrap input {
+      width: 100%;
+      padding: 7px 12px 7px 32px;
+      border: 1.5px solid var(--border);
+      border-radius: 99px;
+      font-size: 13px;
+      outline: none;
+      background: #fff;
+      color: var(--text);
+      transition: border-color 0.2s;
+    }
+    .search-wrap input:focus { border-color: var(--accent); }
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--subtext);
+      font-size: 14px;
+      pointer-events: none;
+    }
+    .filter-btns {
+      display: flex;
+      gap: 4px;
+    }
+    .filter-btn {
+      padding: 6px 14px;
+      border-radius: 99px;
+      border: 1.5px solid var(--border);
+      background: #fff;
+      color: var(--subtext);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .filter-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* ===== CHARACTER TABS ===== */
+    .char-tabs-wrap {
+      display: flex;
+      overflow-x: auto;
+      gap: 0;
+      padding: 2px 0 4px 0;
+      scrollbar-width: none;
+    }
+    .char-tabs-wrap::-webkit-scrollbar { display: none; }
+    .char-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      padding: 4px 10px;
+      flex-shrink: 0;
+      transition: transform 0.15s;
+      user-select: none;
+      border-bottom: 3px solid transparent;
+    }
+    .char-tab:active { transform: scale(0.94); }
+    .char-tab.active { border-bottom-color: var(--tab-color, var(--accent)); }
+    .char-tab-ring {
+      position: relative;
+      width: 54px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .char-tab-ring img {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .char-tab-ring svg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 54px; height: 54px;
+      transform: rotate(-90deg);
+      pointer-events: none;
+    }
+    .char-tab-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 2px;
+    }
+    .char-tab-count {
+      font-size: 9px;
+      color: var(--subtext);
+    }
+
+    /* ===== TYPE NAVIGATION ===== */
+    .type-nav {
+      display: flex;
+      overflow-x: auto;
+      gap: 6px;
+      padding: 4px 16px;
+      scrollbar-width: none;
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .type-nav::-webkit-scrollbar { display: none; }
+    .type-nav-item {
+      padding: 4px 12px;
+      border-radius: 99px;
+      border: 1px solid var(--border);
+      font-size: 11px;
+      cursor: pointer;
+      white-space: nowrap;
+      background: #fff;
+      color: var(--subtext);
+      transition: all 0.15s;
+      flex-shrink: 0;
+    }
+    .type-nav-item.active, .type-nav-item:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .main {
+      padding: 16px 12px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ===== SECTION HEADER ===== */
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin: 20px 0 10px 0;
+      scroll-margin-top: 260px;
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .section-badge {
+      font-size: 11px;
+      color: var(--subtext);
+      background: #f2e9e4;
+      padding: 2px 8px;
+      border-radius: 99px;
+    }
+    .section-badge .owned { color: var(--accent); font-weight: 700; }
+
+    /* ===== CARD GRID ===== */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 10px;
+    }
+    @media (max-width: 480px) {
+      .card-grid { grid-template-columns: repeat(4, 1fr); gap: 7px; }
+    }
+    @media (min-width: 768px) {
+      .card-grid { grid-template-columns: repeat(auto-fill, 130px); }
+    }
+
+    /* ===== CARD ===== */
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 2px solid #e0d0c8;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      user-select: none;
+    }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.10); }
+    .card:active { transform: scale(0.96); }
+
+    /* Unlit / not collected */
+    .card:not(.collected) .card-img-wrap { filter: grayscale(100%) opacity(0.45); }
+    .card:not(.collected) { opacity: 0.7; }
+
+    /* Lit / collected */
+    .card.collected {
+      border-color: var(--card-color, var(--accent));
+      box-shadow: 0 0 0 2px var(--card-color, var(--accent)), 0 4px 18px rgba(215,116,133,0.25);
+      opacity: 1;
+    }
+    .card.collected .card-img-wrap { filter: none; }
+
+    .card-img-wrap {
+      padding: 8px 8px 4px 8px;
+      transition: filter 0.35s;
+    }
+    .card-img-wrap img {
+      width: 100%;
+      height: 90px;
+      object-fit: contain;
+      display: block;
+      -webkit-touch-callout: none;
+    }
+    @media (min-width: 768px) {
+      .card-img-wrap img { height: 110px; }
+    }
+
+    .card-name {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text);
+      padding: 0 4px;
+      line-height: 1.3;
+      word-break: break-word;
+      white-space: normal;
+      min-height: 14px;
+    }
+    .card-size {
+      font-size: 9px;
+      color: var(--subtext);
+      padding: 1px 4px 6px 4px;
+    }
+    @media (min-width: 768px) {
+      .card-name { font-size: 12px; }
+      .card-size { font-size: 10px; }
+    }
+
+    /* Checkmark badge */
+    .card-check {
+      position: absolute;
+      top: 5px; right: 5px;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--card-color, var(--accent));
+      display: none;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+    .card.collected .card-check {
+      display: flex;
+      animation: popIn 0.25s cubic-bezier(.4,0,.2,1);
+    }
+    .card-check svg { width: 11px; height: 11px; fill: #fff; }
+    @keyframes popIn {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    /* Spark animation when collecting */
+    .card.just-collected::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, rgba(255,255,255,0.7) 0%, transparent 70%);
+      animation: sparkle 0.4s ease-out forwards;
+      pointer-events: none;
+      border-radius: 10px;
+    }
+    @keyframes sparkle {
+      from { opacity: 1; transform: scale(0.8); }
+      to   { opacity: 0; transform: scale(1.1); }
+    }
+
+    /* ===== EMPTY STATE ===== */
+    .empty-state {
+      text-align: center;
+      padding: 48px 16px;
+      color: var(--subtext);
+    }
+    .empty-state .emoji { font-size: 48px; display: block; margin-bottom: 8px; }
+
+    /* ===== RESET SECTION ===== */
+    .reset-section {
+      text-align: center;
+      padding: 24px 0 8px 0;
+    }
+    .reset-btn {
+      background: none;
+      border: 1.5px solid #e0d0c8;
+      border-radius: 99px;
+      padding: 8px 24px;
+      font-size: 13px;
+      color: var(--subtext);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .reset-btn:hover { border-color: #ef7c8e; color: #ef7c8e; }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: #dac7b7;
+      color: #fff;
+      text-align: center;
+      padding: 18px 16px;
+      font-size: 13px;
+      margin-top: 32px;
+    }
+    .footer a { color: #fff; font-weight: 700; }
+
+    /* ===== LOADING ===== */
+    .loading {
+      text-align: center;
+      padding: 60px 0;
+      color: var(--subtext);
+      font-size: 14px;
+    }
+    .loading .dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin: 0 3px;
+      animation: bounce 0.8s ease-in-out infinite;
+    }
+    .loading .dot:nth-child(2) { animation-delay: 0.16s; }
+    .loading .dot:nth-child(3) { animation-delay: 0.32s; }
+    @keyframes bounce {
+      0%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+    }
+
+    /* hide card when filtered */
+    .card.hidden { display: none; }
+    .section-group.all-hidden { display: none; }
+
+    /* scroll to top button */
+    #toTopBtn {
+      position: fixed;
+      bottom: 24px;
+      right: 16px;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 3px 12px rgba(215,116,133,0.4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+      transition: opacity 0.2s;
+    }
+    #toTopBtn.visible { display: flex; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <!-- Header top row -->
+  <div class="header-top">
+    <div class="header-logo">
+      <img src="https://i.postimg.cc/CLBFxHs3/logo-banner.png" alt="JIWU LOGO" />
+      <span class="header-title">我的收藏图鉴</span>
+    </div>
+  </div>
+
+  <!-- Overall progress banner -->
+  <div class="stats-banner" id="stats-banner">
+    <div class="stat-item">
+      <span class="stat-num" id="stat-owned">0</span>
+      <span class="stat-label">已收藏</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" id="stat-total">0</span>
+      <span class="stat-label">全部</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" id="stat-missing">0</span>
+      <span class="stat-label">待入手</span>
+    </div>
+    <div class="stats-bar-wrap">
+      <div class="stats-bar-track">
+        <div class="stats-bar-fill" id="stats-bar-fill" style="width:0%"></div>
+      </div>
+      <div class="stats-percent" id="stats-percent">0%</div>
+    </div>
+  </div>
+
+  <!-- Search & Filter -->
+  <div class="toolbar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search-input" placeholder="搜索宝宝名字…" autocomplete="off" />
+    </div>
+    <div class="filter-btns">
+      <button class="filter-btn active" data-filter="all">全部</button>
+      <button class="filter-btn" data-filter="collected">已点亮</button>
+      <button class="filter-btn" data-filter="uncollected">未点亮</button>
+    </div>
+  </div>
+
+  <!-- Character Tabs -->
+  <div class="char-tabs-wrap" id="char-tabs"></div>
+</div>
+
+<!-- Type nav (sticks below header) -->
+<div class="type-nav" id="type-nav"></div>
+
+<!-- Main content -->
+<div class="main" id="main-content">
+  <div class="loading" id="loading">
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <p>宝宝加载中…</p>
+  </div>
+</div>
+
+<div class="reset-section">
+  <button class="reset-btn" id="reset-btn">🗑️ 重置当前角色的图鉴</button>
+</div>
+
+<div class="footer">
+  <a href="https://jiwusales.github.io/jiwu_menu/" target="_blank">JIWU吉物贩售 →</a>
+  &nbsp;|&nbsp;
+  <a href="https://jiwusales.github.io/jiwusales_nagano" target="_blank">自嘲熊图鉴</a>
+</div>
+
+<button id="toTopBtn" aria-label="回到顶部">↑</button>
+
+<script>
+/* ========== DATA CONFIG ========== */
+const SHEET_ID = "17gH9HZKvW_6fMCWYLyqnzMHj40rA7PiwWg6L0GvbFgQ";
+const SHEET_NAMES = ["吉伊", "小八", "兔兔", "小桃", "師傅", "栗子", "獅薩", "古本", "其他角色"];
+const COLORS = {
+  "吉伊": "#d77485", "小八": "#6293b8", "兔兔": "#f9be3c",
+  "小桃": "#838BC2", "師傅": "#CCAFA5", "栗子": "#94C973",
+  "獅薩": "#FBAA60", "古本": "#eb9e97", "其他角色": "#45818e"
+};
+const ICONS = {
+  "吉伊": "https://i.postimg.cc/vZDs4YNZ/icon.png",
+  "小八": "https://i.postimg.cc/sDTzfQKL/icon.png",
+  "兔兔": "https://i.postimg.cc/xdzVPsYr/icon.png",
+  "小桃": "https://i.postimg.cc/9MP36rrJ/icon.png",
+  "師傅": "https://i.postimg.cc/fTq4Q4Rn/icon.png",
+  "栗子": "https://i.postimg.cc/FzGMK8bS/icon.png",
+  "獅薩": "https://i.postimg.cc/660Jz4sQ/icon.png",
+  "古本": "https://i.postimg.cc/nh5t7yyY/icon.png",
+  "其他角色": "https://i.postimg.cc/63xJbd58/icon.png"
+};
+
+const SHEET_LABELS = {
+  "師傅": "师傅",
+  "獅薩": "狮萨"
+};
+
+function getSheetLabel(sheetName) {
+  return SHEET_LABELS[sheetName] || sheetName;
+}
+
+/* ========== STATE ========== */
+let currentSheet = "吉伊";
+let currentFilter = "all";
+let searchQuery = "";
+let allData = {};     // sheetName -> [{type,name,imgUrl,size}]
+let tabEls = {};      // sheetName -> tab DOM el
+
+/* ========== STORAGE HELPERS ========== */
+function storageKey(sheet) { return `collected_v2_${sheet}`; }
+function getCollected(sheet) {
+  return JSON.parse(localStorage.getItem(storageKey(sheet))) || [];
+}
+function setCollected(sheet, arr) {
+  localStorage.setItem(storageKey(sheet), JSON.stringify(arr));
+}
+function isCollected(sheet, type, name) {
+  return getCollected(sheet).includes(`${sheet}|${type}|${name}`);
+}
+function toggleCollected(sheet, type, name) {
+  let c = getCollected(sheet);
+  const key = `${sheet}|${type}|${name}`;
+  if (c.includes(key)) { c = c.filter(k => k !== key); }
+  else { c.push(key); }
+  setCollected(sheet, c);
+  return c.includes(key);
+}
+
+/* ========== OVERALL STATS ========== */
+function computeOverallStats() {
+  let totalOwned = 0, totalAll = 0;
+  SHEET_NAMES.forEach(s => {
+    const data = allData[s] || [];
+    const c = getCollected(s);
+    totalAll += data.length;
+    totalOwned += data.filter(it => c.includes(`${s}|${it.type}|${it.name}`)).length;
+  });
+  return { owned: totalOwned, total: totalAll };
+}
+function updateOverallStats() {
+  const { owned, total } = computeOverallStats();
+  document.getElementById("stat-owned").textContent = owned;
+  document.getElementById("stat-total").textContent = total;
+  document.getElementById("stat-missing").textContent = total - owned;
+  const pct = total ? Math.round(owned / total * 100) : 0;
+  document.getElementById("stats-bar-fill").style.width = pct + "%";
+  document.getElementById("stats-percent").textContent = pct + "%";
+}
+
+/* ========== CHARACTER TABS ========== */
+function buildCharTabs() {
+  const wrap = document.getElementById("char-tabs");
+  wrap.innerHTML = "";
+  SHEET_NAMES.forEach(s => {
+    const tab = document.createElement("div");
+    tab.className = "char-tab";
+    tab.style.setProperty("--tab-color", COLORS[s] || "#999");
+    tab.addEventListener("click", () => switchSheet(s));
+    tabEls[s] = tab;
+    wrap.appendChild(tab);
+  });
+}
+function updateCharTab(s) {
+  const tab = tabEls[s];
+  if (!tab) return;
+  const data = allData[s] || [];
+  const c = getCollected(s);
+  const owned = data.filter(it => c.includes(`${s}|${it.type}|${it.name}`)).length;
+  const total = data.length;
+  const pct = total ? owned / total : 0;
+  const R = 22, SW = 3, CIRC = 2 * Math.PI * R;
+  const offset = CIRC * (1 - pct);
+  tab.innerHTML = `
+    <div class="char-tab-ring">
+      <img src="${ICONS[s]}" alt="${s}" />
+      <svg width="54" height="54">
+        <circle cx="27" cy="27" r="${R}" stroke="#e8d5c4" stroke-width="${SW}" fill="none"/>
+        <circle cx="27" cy="27" r="${R}" stroke="${COLORS[s]||'#999'}" stroke-width="${SW}" fill="none"
+          stroke-dasharray="${CIRC.toFixed(2)}" stroke-dashoffset="${offset.toFixed(2)}" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="char-tab-name">${getSheetLabel(s)}</div>
+    <div class="char-tab-count">${owned}/${total}</div>
+  `;
+  tab.classList.toggle("active", s === currentSheet);
+}
+function updateAllCharTabs() {
+  SHEET_NAMES.forEach(s => updateCharTab(s));
+}
+
+/* ========== TYPE NAV ========== */
+function buildTypeNav(types) {
+  const nav = document.getElementById("type-nav");
+  nav.innerHTML = "";
+  types.forEach(type => {
+    const el = document.createElement("div");
+    el.className = "type-nav-item";
+    el.textContent = type;
+    el.addEventListener("click", () => {
+      const target = document.getElementById(`section-${CSS.escape(type)}`);
+      if (target) {
+        const headerH = document.querySelector(".header").offsetHeight;
+        const navH = document.getElementById("type-nav").offsetHeight;
+        const top = target.getBoundingClientRect().top + window.pageYOffset - headerH - navH - 8;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
+    });
+    nav.appendChild(el);
+  });
+}
+
+/* ========== RENDER CARDS ========== */
+function renderCards(sheet) {
+  const main = document.getElementById("main-content");
+  main.innerHTML = "";
+  const data = allData[sheet] || [];
+  if (!data.length) {
+    main.innerHTML = `<div class="loading"><p>数据加载中…</p></div>`;
+    return;
+  }
+  const grouped = {};
+  data.forEach(it => {
+    const t = it.type || "无类型";
+    if (!grouped[t]) grouped[t] = [];
+    grouped[t].push(it);
+  });
+  buildTypeNav(Object.keys(grouped));
+
+  Object.keys(grouped).forEach(type => {
+    const items = grouped[type];
+    const section = document.createElement("div");
+    section.className = "section-group";
+    section.id = `section-${type}`;
+
+    const header = document.createElement("div");
+    header.className = "section-header";
+    header.id = `hdr-${type}`;
+    const c = getCollected(sheet);
+    const owned = items.filter(it => c.includes(`${sheet}|${type}|${it.name}`)).length;
+    header.innerHTML = `
+      <span class="section-title">${type}</span>
+      <span class="section-badge" id="badge-${type}">
+        <span class="owned" id="owned-${type}">${owned}</span>/${items.length}
+      </span>`;
+    section.appendChild(header);
+
+    const grid = document.createElement("div");
+    grid.className = "card-grid";
+    items.forEach(it => {
+      const card = createCard(sheet, type, it);
+      grid.appendChild(card);
+    });
+    section.appendChild(grid);
+    main.appendChild(section);
+  });
+
+  applyFilterAndSearch();
+}
+
+function createCard(sheet, type, it) {
+  const card = document.createElement("div");
+  card.className = "card";
+  card.dataset.name = it.name.toLowerCase();
+  card.dataset.type = type;
+  card.style.setProperty("--card-color", COLORS[sheet] || "#d77485");
+  const collected = isCollected(sheet, type, it.name);
+  if (collected) card.classList.add("collected");
+
+  const safeName = it.name.length > 9
+    ? it.name.slice(0, 9) + "<br>" + it.name.slice(9)
+    : it.name;
+
+  card.innerHTML = `
+    <div class="card-check">
+      <svg viewBox="0 0 16 16"><path d="M6 11.2L3.3 8.5l-1.4 1.4L6 14 14 6l-1.4-1.4z"/></svg>
+    </div>
+    <div class="card-img-wrap">
+      <img src="${it.imgUrl || 'https://i.postimg.cc/bv5xRs04/image.png'}" alt="${it.name}" loading="lazy" />
+    </div>
+    <div class="card-name">${safeName}</div>
+    <div class="card-size">${it.size || ''}</div>
+  `;
+
+  card.addEventListener("click", () => {
+    const nowCollected = toggleCollected(sheet, type, it.name);
+    card.classList.toggle("collected", nowCollected);
+    if (nowCollected) {
+      card.classList.add("just-collected");
+      setTimeout(() => card.classList.remove("just-collected"), 450);
+    }
+    updateSectionBadge(sheet, type);
+    updateCharTab(sheet);
+    updateOverallStats();
+    applyFilterAndSearch();
+  });
+  return card;
+}
+
+/* ========== SECTION BADGE ========== */
+function updateSectionBadge(sheet, type) {
+  const data = (allData[sheet] || []).filter(it => (it.type || "无类型") === type);
+  const c = getCollected(sheet);
+  const owned = data.filter(it => c.includes(`${sheet}|${type}|${it.name}`)).length;
+  const el = document.getElementById(`owned-${type}`);
+  if (el) el.textContent = owned;
+}
+
+/* ========== FILTER & SEARCH ========== */
+function applyFilterAndSearch() {
+  const q = searchQuery.toLowerCase();
+  const sections = document.querySelectorAll(".section-group");
+  sections.forEach(sec => {
+    let anyVisible = false;
+    sec.querySelectorAll(".card").forEach(card => {
+      const matchSearch = !q || card.dataset.name.includes(q);
+      const collected = card.classList.contains("collected");
+      const matchFilter =
+        currentFilter === "all" ||
+        (currentFilter === "collected" && collected) ||
+        (currentFilter === "uncollected" && !collected);
+      const show = matchSearch && matchFilter;
+      card.classList.toggle("hidden", !show);
+      if (show) anyVisible = true;
+    });
+    sec.classList.toggle("all-hidden", !anyVisible);
+  });
+
+  // Show empty state if nothing visible
+  const main = document.getElementById("main-content");
+  let existingEmpty = main.querySelector(".empty-state");
+  const anyVisible = [...document.querySelectorAll(".section-group")].some(s => !s.classList.contains("all-hidden"));
+  if (!anyVisible && allData[currentSheet]?.length) {
+    if (!existingEmpty) {
+      const empty = document.createElement("div");
+      empty.className = "empty-state";
+      empty.innerHTML = `<span class="emoji">🔍</span>没有符合条件的宝宝 ฅ(´• ω •\`)ฅ`;
+      main.appendChild(empty);
+    }
+  } else if (existingEmpty) {
+    existingEmpty.remove();
+  }
+}
+
+/* ========== LOAD SHEET DATA ========== */
+function loadSheet(sheet) {
+  document.getElementById("loading") && (document.getElementById("main-content").innerHTML =
+    `<div class="loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div><p>宝宝加载中…</p></div>`);
+
+  if (allData[sheet]) {
+    renderCards(sheet);
+    return;
+  }
+
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheet)}`;
+  fetch(url)
+    .then(r => r.text())
+    .then(t => JSON.parse(t.match(/\{.*\}/s)[0]))
+    .then(data => {
+      let rows = data.table.rows || [];
+      if (rows.length > 1) rows = rows.slice(1);
+      allData[sheet] = rows.map(row => ({
+        type: row.c[0]?.v || "无类型",
+        name: row.c[1]?.v || "",
+        imgUrl: row.c[3]?.v || "",
+        size: row.c[5]?.v || ""
+      })).filter(it => it.name);
+      renderCards(sheet);
+      updateCharTab(sheet);
+      updateOverallStats();
+    })
+    .catch(() => {
+      document.getElementById("main-content").innerHTML =
+        `<div class="empty-state"><span class="emoji">😢</span>加载失败，请刷新重试</div>`;
+    });
+}
+
+/* Preload all sheets for tab counts */
+function preloadAll() {
+  SHEET_NAMES.forEach(s => {
+    if (allData[s]) return;
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(s)}`;
+    fetch(url)
+      .then(r => r.text())
+      .then(t => JSON.parse(t.match(/\{.*\}/s)[0]))
+      .then(data => {
+        let rows = data.table.rows || [];
+        if (rows.length > 1) rows = rows.slice(1);
+        allData[s] = rows.map(row => ({
+          type: row.c[0]?.v || "无类型",
+          name: row.c[1]?.v || "",
+          imgUrl: row.c[3]?.v || "",
+          size: row.c[5]?.v || ""
+        })).filter(it => it.name);
+        updateCharTab(s);
+        updateOverallStats();
+      })
+      .catch(() => {});
+  });
+}
+
+/* ========== SWITCH SHEET ========== */
+function switchSheet(sheet) {
+  currentSheet = sheet;
+  document.documentElement.style.setProperty("--accent", COLORS[sheet] || "#d77485");
+  // reset filter & search on tab switch
+  currentFilter = "all";
+  searchQuery = "";
+  document.getElementById("search-input").value = "";
+  document.querySelectorAll(".filter-btn").forEach(b => b.classList.toggle("active", b.dataset.filter === "all"));
+
+  updateAllCharTabs();
+  loadSheet(sheet);
+
+  // Update URL
+  const url = new URL(window.location);
+  url.searchParams.set("tab", sheet);
+  history.replaceState(null, "", url);
+}
+
+/* ========== INIT ========== */
+function init() {
+  buildCharTabs();
+  updateAllCharTabs();
+
+  // Determine initial tab from URL
+  const urlTab = new URLSearchParams(window.location.search).get("tab");
+  currentSheet = SHEET_NAMES.includes(urlTab) ? urlTab : SHEET_NAMES[0];
+  document.documentElement.style.setProperty("--accent", COLORS[currentSheet] || "#d77485");
+
+  loadSheet(currentSheet);
+  preloadAll();
+  updateOverallStats();
+
+  // Filter buttons
+  document.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      currentFilter = btn.dataset.filter;
+      document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      applyFilterAndSearch();
+    });
+  });
+
+  // Search
+  document.getElementById("search-input").addEventListener("input", e => {
+    searchQuery = e.target.value.trim();
+    applyFilterAndSearch();
+  });
+
+  // Reset button
+  document.getElementById("reset-btn").addEventListener("click", () => {
+    if (confirm(`确定要重置「${getSheetLabel(currentSheet)}」的图鉴吗？ฅ(๑*д*๑)ฅ`)) {
+      setCollected(currentSheet, []);
+      renderCards(currentSheet);
+      updateCharTab(currentSheet);
+      updateOverallStats();
+      alert("✨图鉴重置完成！(˶ˆᗜˆ˵)");
+    }
+  });
+
+  // Scroll to top button
+  const toTopBtn = document.getElementById("toTopBtn");
+  window.addEventListener("scroll", () => {
+    toTopBtn.classList.toggle("visible", window.scrollY > 300);
+  });
+  toTopBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+}
+
+document.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>

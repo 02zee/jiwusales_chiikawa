@@ -15,9 +15,9 @@
     :root {
       --accent: #d77485;
       --bg: #fdf6f0;
-      --page-bg-image: linear-gradient(135deg, rgba(252,228,236,0.96) 0%, rgba(253,246,240,0.9) 52%, rgba(227,240,251,0.92) 100%);
+      --page-bg-image: radial-gradient(circle at 12% 12%, rgba(255,236,243,0.96) 0, rgba(255,236,243,0.58) 28%, transparent 42%), radial-gradient(circle at 86% 8%, rgba(226,242,255,0.86) 0, rgba(226,242,255,0.5) 26%, transparent 44%), linear-gradient(135deg, rgba(252,228,236,0.96) 0%, rgba(253,246,240,0.9) 52%, rgba(227,240,251,0.92) 100%);
       --page-bg-opacity: 0.72;
-      --card-bg: #ffffff;
+      --card-bg: rgba(255,255,255,0.9);
       --text: #333;
       --subtext: #888;
       --border: #e8d5c4;
@@ -60,14 +60,14 @@
 
     /* ===== HEADER ===== */
     .header {
-      background: rgba(255, 249, 245, 0.78);
+      background: linear-gradient(135deg, rgba(255, 249, 245, 0.86), rgba(248, 252, 255, 0.76));
       border-bottom: 1px solid var(--border);
       padding: 12px 16px 0 16px;
       position: sticky;
       top: 0;
       z-index: 200;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-      backdrop-filter: blur(16px);
+      box-shadow: 0 14px 34px rgba(126, 90, 105, 0.1);
+      backdrop-filter: blur(18px) saturate(1.18);
     }
     .header-top {
       display: flex;
@@ -88,7 +88,7 @@
       gap: 10px;
       padding: 6px 10px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.72);
+      background: linear-gradient(135deg, rgba(255,255,255,0.88), rgba(255,246,250,0.72));
       border: 1px solid rgba(232, 213, 196, 0.9);
       box-shadow: 0 8px 20px rgba(126, 90, 105, 0.08);
     }
@@ -131,7 +131,7 @@
 
     /* ===== OVERALL STATS BAR ===== */
     .stats-banner {
-      background: linear-gradient(135deg, #fce4ec 0%, #fdf6f0 60%, #e3f0fb 100%);
+      background: linear-gradient(135deg, rgba(252,228,236,0.92) 0%, rgba(253,246,240,0.86) 58%, rgba(227,240,251,0.92) 100%);
       border-radius: 14px;
       padding: 10px 16px;
       margin: 0 0 8px 0;
@@ -139,6 +139,8 @@
       align-items: center;
       gap: 16px;
       flex-wrap: wrap;
+      border: 1px solid rgba(255,255,255,0.72);
+      box-shadow: 0 14px 30px rgba(126, 90, 105, 0.08);
     }
     .stats-banner .stat-item {
       display: flex;
@@ -243,9 +245,9 @@
       padding: 0 0 10px 0;
     }
     .quick-action-btn {
-      border: 1px solid rgba(255,255,255,0.55);
+      border: 1px solid rgba(255,255,255,0.78);
       border-radius: 999px;
-      background: rgba(255,255,255,0.82);
+      background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(255,246,250,0.82));
       color: var(--accent);
       font-size: 12px;
       font-weight: 700;
@@ -254,6 +256,12 @@
       box-shadow: 0 8px 18px rgba(215,116,133,0.08);
       backdrop-filter: blur(10px);
       transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+    }
+    .quick-action-btn.primary-action {
+      color: #fff;
+      background: linear-gradient(135deg, #d77485, #7f9dd9);
+      border-color: rgba(255,255,255,0.72);
+      box-shadow: 0 14px 28px rgba(215,116,133,0.22);
     }
     .quick-action-btn:hover {
       transform: translateY(-1px);
@@ -393,15 +401,17 @@
 
     /* ===== CARD ===== */
     .card {
-      background: var(--card-bg);
-      border-radius: 12px;
-      border: 2px solid #e0d0c8;
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,249,246,0.9));
+      border-radius: 18px;
+      border: 1px solid rgba(224,208,200,0.88);
       cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
       position: relative;
       overflow: hidden;
       text-align: center;
       user-select: none;
+      box-shadow: 0 10px 26px rgba(126, 90, 105, 0.08);
+      backdrop-filter: blur(10px);
     }
     .card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.10); }
     .card:active { transform: scale(0.96); }
@@ -412,8 +422,8 @@
 
     /* Lit / collected */
     .card.collected {
-      border-color: var(--card-color, var(--accent));
-      box-shadow: 0 0 0 2px var(--card-color, var(--accent)), 0 4px 18px rgba(215,116,133,0.25);
+      border-color: color-mix(in srgb, var(--card-color, var(--accent)) 70%, #ffffff);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--card-color, var(--accent)) 52%, #ffffff), 0 14px 30px rgba(215,116,133,0.2);
       opacity: 1;
     }
     .card.collected .card-img-wrap { filter: none; }
@@ -485,6 +495,24 @@
     }
     .card-action-btn:active {
       transform: scale(0.98);
+    }
+    .card-wishlist-btn {
+      flex: 1;
+      min-width: 0;
+      border: 1px solid #efd7b1;
+      border-radius: 99px;
+      background: #fff9ee;
+      color: #b27625;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 5px 6px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .card-wishlist-btn.active {
+      background: #fff1d6;
+      color: #9f6418;
+      border-color: #f0c982;
     }
     .card-uncollect-btn {
       flex: 0 0 auto;
@@ -761,6 +789,91 @@
       color: #e67e22;
       margin-bottom: 3px;
     }
+    .planner-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .planner-item {
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.94), rgba(255,248,238,0.9));
+      border: 1px solid rgba(233, 220, 220, 0.95);
+      box-shadow: 0 10px 22px rgba(126, 90, 105, 0.06);
+    }
+    .planner-thumb {
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      object-fit: contain;
+      background: #fff;
+      border: 1px solid rgba(233, 220, 220, 0.9);
+      padding: 6px;
+    }
+    .planner-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #5f3f3a;
+    }
+    .planner-sub,
+    .planner-note {
+      font-size: 12px;
+      color: #8a6b74;
+      margin-top: 4px;
+      line-height: 1.45;
+    }
+    .planner-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .planner-tag {
+      display: inline-flex;
+      border-radius: 999px;
+      background: rgba(215,116,133,0.1);
+      color: #9f5e6a;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 8px;
+    }
+    .planner-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .share-card {
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(255,246,250,0.96), rgba(243,250,255,0.94));
+      border: 1px solid rgba(233, 220, 220, 0.95);
+      padding: 18px;
+      box-shadow: 0 16px 32px rgba(126, 90, 105, 0.08);
+    }
+    .share-textarea {
+      width: 100%;
+      min-height: 168px;
+      resize: vertical;
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      color: #5f3f3a;
+      background: rgba(255,255,255,0.92);
+      outline: none;
+      line-height: 1.6;
+    }
+    .disclaimer-box {
+      border-radius: 18px;
+      background: rgba(255,250,246,0.92);
+      border: 1px solid rgba(232, 213, 196, 0.95);
+      padding: 16px;
+      color: #6f5150;
+      font-size: 13px;
+      line-height: 1.75;
+    }
     .bg-preview {
       position: relative;
       min-height: 180px;
@@ -991,9 +1104,13 @@
     </div>
   </div>
   <div class="quick-actions">
+    <button class="quick-action-btn primary-action" id="share-progress-btn" type="button">💌 分享进度</button>
+    <button class="quick-action-btn" id="wishlist-btn" type="button">🛒 待入手清单</button>
     <button class="quick-action-btn" id="showcase-btn" type="button">🏛️ 收藏橱窗</button>
     <button class="quick-action-btn" id="timeline-btn" type="button">🗓️ 购入时间线</button>
     <button class="quick-action-btn" id="background-settings-btn" type="button">🖼️ 背景设置</button>
+    <button class="quick-action-btn" id="github-star-btn" type="button">⭐ 支持 Star</button>
+    <button class="quick-action-btn" id="disclaimer-btn" type="button">📜 免责声明</button>
   </div>
 
   <!-- Character Tabs -->
@@ -1019,6 +1136,8 @@
   <a href="https://jiwusales.github.io/jiwu_menu/" target="_blank">JIWU吉物贩售 →</a>
   &nbsp;|&nbsp;
   <a href="https://jiwusales.github.io/jiwusales_nagano" target="_blank">自嘲熊图鉴</a>
+  <br>
+  <span style="font-size:12px;opacity:0.82;">数据来源：JIWU吉物贩售公开图鉴资料整理；本页面为粉丝向收藏管理工具，非官方商业用途。</span>
 </div>
 
 <button id="toTopBtn" aria-label="回到顶部">↑</button>
@@ -1126,6 +1245,7 @@ function toSimplifiedText(value) {
         ];
         const DEFAULT_BACKGROUND_VALUE = "linear-gradient(135deg, rgba(252,228,236,0.96) 0%, rgba(253,246,240,0.9) 52%, rgba(227,240,251,0.92) 100%)";
         function purchaseStorageKey() { return "collection_purchase_records_v1"; }
+        function wishlistStorageKey() { return "collection_wishlist_records_v1"; }
         function getItemKey(sheet, type, name) { return `${sheet}|${type}|${name}`; }
         function getCollected(sheet) {
           try {
@@ -1180,6 +1300,53 @@ function toSimplifiedText(value) {
           else records[key] = next;
           try {
             localStorage.setItem(purchaseStorageKey(), JSON.stringify(records));
+          } catch {}
+        }
+
+        function getAllWishlistRecords() {
+          try {
+            const raw = localStorage.getItem(wishlistStorageKey());
+            const parsed = raw ? JSON.parse(raw) : {};
+            return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+          } catch {
+            return {};
+          }
+        }
+
+        function getWishlistRecord(sheet, type, name) {
+          const record = getAllWishlistRecords()[getItemKey(sheet, type, name)] || {};
+          return {
+            targetPrice: String(record.targetPrice || "").trim(),
+            planDate: String(record.planDate || "").trim(),
+            priority: String(record.priority || "普通").trim() || "普通",
+            note: String(record.note || "").trim(),
+            createdAt: String(record.createdAt || "").trim()
+          };
+        }
+
+        function isWishlisted(sheet, type, name) {
+          return Boolean(getAllWishlistRecords()[getItemKey(sheet, type, name)]);
+        }
+
+        function setWishlistRecord(sheet, type, name, record) {
+          const records = getAllWishlistRecords();
+          records[getItemKey(sheet, type, name)] = {
+            targetPrice: String(record?.targetPrice || "").trim(),
+            planDate: String(record?.planDate || "").trim(),
+            priority: String(record?.priority || "普通").trim() || "普通",
+            note: String(record?.note || "").trim(),
+            createdAt: String(record?.createdAt || new Date().toISOString()).trim()
+          };
+          try {
+            localStorage.setItem(wishlistStorageKey(), JSON.stringify(records));
+          } catch {}
+        }
+
+        function removeWishlistRecord(sheet, type, name) {
+          const records = getAllWishlistRecords();
+          delete records[getItemKey(sheet, type, name)];
+          try {
+            localStorage.setItem(wishlistStorageKey(), JSON.stringify(records));
           } catch {}
         }
 
@@ -1473,6 +1640,125 @@ function getCollectedItems() {
   return collected;
 }
 
+function getWishlistItems() {
+  const records = getAllWishlistRecords();
+  const items = [];
+  Object.keys(records).forEach(key => {
+    const [sheet, type, name] = key.split('|');
+    const source = (allData[sheet] && allData[sheet].length) ? allData[sheet] : getCachedSheetData(sheet);
+    const found = source.find(it => it.type === type && it.name === name) || { type, name, imgUrl: '', size: '' };
+    const record = getWishlistRecord(sheet, type, name);
+    items.push({
+      ...found,
+      key,
+      sheet,
+      sheetLabel: getSheetLabel(sheet),
+      displayName: toSimplifiedText(found.name || name),
+      displayType: toSimplifiedText(found.type || type),
+      targetPrice: record.targetPrice,
+      planDate: record.planDate,
+      priority: record.priority,
+      note: record.note,
+      createdAt: record.createdAt
+    });
+  });
+  return items.sort((a, b) => {
+    const priorityRank = { "高": 3, "普通": 2, "低": 1 };
+    const rankDiff = (priorityRank[b.priority] || 2) - (priorityRank[a.priority] || 2);
+    if (rankDiff) return rankDiff;
+    return parsePurchaseDateValue(a.planDate) - parsePurchaseDateValue(b.planDate);
+  });
+}
+
+function editWishlistRecord(sheet, type, item) {
+  const current = getWishlistRecord(sheet, type, item.name);
+  const itemLabel = toSimplifiedText(item.name);
+  const targetPrice = window.prompt(`请输入「${itemLabel}」的预算/目标价（留空可跳过，输入 - 可清除）`, current.targetPrice);
+  if (targetPrice === null) return false;
+  const planDate = window.prompt(`请输入计划入手日期（如 2026-05-20，留空可跳过，输入 - 可清除）`, current.planDate);
+  if (planDate === null) return false;
+  const priority = window.prompt(`请输入优先级：高 / 普通 / 低`, current.priority || "普通");
+  if (priority === null) return false;
+  const note = window.prompt(`写一点备注吧（店铺、版本、尺寸等；留空可跳过，输入 - 可清除）`, current.note);
+  if (note === null) return false;
+  setWishlistRecord(sheet, type, item.name, {
+    targetPrice: String(targetPrice).trim() === '-' ? '' : String(targetPrice).trim(),
+    planDate: String(planDate).trim() === '-' ? '' : String(planDate).trim(),
+    priority: ["高", "普通", "低"].includes(String(priority).trim()) ? String(priority).trim() : "普通",
+    note: String(note).trim() === '-' ? '' : String(note).trim(),
+    createdAt: current.createdAt || new Date().toISOString()
+  });
+  return true;
+}
+
+function showWishlistPlanner() {
+  const items = getWishlistItems();
+  const budget = items.reduce((sum, it) => sum + parsePriceValue(it.targetPrice), 0);
+  const { body, footer, close } = createOverlayModal('wishlist-modal', '🛒 待入手清单', '把想买的宝宝加入计划，记录预算、日期、优先级和备注。');
+  if (!items.length) {
+    body.innerHTML = `<div class="empty-state"><span class="emoji">🛒</span>还没有待入手宝宝。可以在卡片上点击「想入手」加入清单。</div>`;
+  } else {
+    body.innerHTML = `
+      <div class="summary-chips">
+        <div class="summary-chip"><strong>${items.length}</strong><span>计划入手</span></div>
+        <div class="summary-chip"><strong>${formatCurrency(budget)}</strong><span>预算合计</span></div>
+        <div class="summary-chip"><strong>${items.filter(it => it.priority === '高').length}</strong><span>高优先级</span></div>
+      </div>
+      <div class="planner-list">
+        ${items.map(it => `
+          <div class="planner-item">
+            <img class="planner-thumb" src="${escapeHtml(it.imgUrl || 'https://i.postimg.cc/bv5xRs04/image.png')}" alt="${escapeHtml(it.displayName)}" />
+            <div>
+              <div class="planner-title">${escapeHtml(it.displayName)}</div>
+              <div class="planner-sub">${escapeHtml(it.sheetLabel)} · ${escapeHtml(it.displayType)}</div>
+              ${it.note ? `<div class="planner-note">📝 ${escapeHtml(it.note)}</div>` : ''}
+              <div class="planner-tags">
+                <span class="planner-tag">优先级：${escapeHtml(it.priority)}</span>
+                <span class="planner-tag">预算：${it.targetPrice ? escapeHtml(formatPurchasePrice(it.targetPrice)) : '未定'}</span>
+                <span class="planner-tag">日期：${escapeHtml(it.planDate || '未定')}</span>
+              </div>
+            </div>
+            <div class="planner-actions">
+              <button class="ghost-btn" type="button" data-action="edit" data-key="${escapeHtml(it.key)}">编辑</button>
+              <button class="solid-btn" type="button" data-action="bought" data-key="${escapeHtml(it.key)}">已入手</button>
+              <button class="ghost-btn" type="button" data-action="remove" data-key="${escapeHtml(it.key)}">移除</button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+  footer.innerHTML = `<button class="ghost-btn" type="button" id="wishlist-close-btn">关闭</button>`;
+  body.addEventListener('click', event => {
+    const button = event.target.closest('button[data-action]');
+    if (!button) return;
+    const item = getWishlistItems().find(it => it.key === button.dataset.key);
+    if (!item) return;
+    if (button.dataset.action === 'edit') {
+      editWishlistRecord(item.sheet, item.type, item);
+      showWishlistPlanner();
+    }
+    if (button.dataset.action === 'remove') {
+      removeWishlistRecord(item.sheet, item.type, item.name);
+      if (item.sheet === currentSheet) renderCards(currentSheet);
+      showWishlistPlanner();
+    }
+    if (button.dataset.action === 'bought') {
+      const collected = getCollected(item.sheet);
+      if (!collected.includes(item.key)) {
+        collected.push(item.key);
+        setCollected(item.sheet, collected);
+      }
+      removeWishlistRecord(item.sheet, item.type, item.name);
+      if (item.sheet === currentSheet) renderCards(currentSheet);
+      updateCharTab(item.sheet);
+      updateOverallStats();
+      showWishlistPlanner();
+    }
+  });
+  footer.querySelector('#wishlist-close-btn').addEventListener('click', close);
+}
+
 function buildCollectedSummary(collected) {
   return {
     total: collected.length,
@@ -1688,6 +1974,102 @@ function showBackgroundSettings() {
   footer.querySelector('#bg-close-btn').addEventListener('click', close);
 }
 
+function buildShareText() {
+  const stats = computeOverallStats();
+  const wishlist = getWishlistItems();
+  const pct = stats.total ? Math.round(stats.owned / stats.total * 100) : 0;
+  const roleLines = SHEET_NAMES.map(sheet => {
+    const data = allData[sheet] || getCachedSheetData(sheet);
+    const collected = getCollected(sheet);
+    const owned = data.filter(it => collected.includes(getItemKey(sheet, it.type, it.name))).length;
+    return `- ${getSheetLabel(sheet)}：${owned}/${data.length}`;
+  }).join('\n');
+  return `我的 Chiikawa 家族收藏进度来啦！
+
+已收藏：${stats.owned}/${stats.total}
+完成度：${pct}%
+待入手：${Math.max(stats.total - stats.owned, 0)} 个
+计划清单：${wishlist.length} 个
+累计记录花费：${formatCurrency(stats.cost)}
+
+角色进度：
+${roleLines}
+
+来看看我的图鉴：
+${location.origin}${location.pathname}
+
+数据来源：JIWU吉物贩售公开图鉴资料整理。
+本页面为粉丝向收藏管理工具，非官方商业用途。`;
+}
+
+function showShareProgress() {
+  const shareText = buildShareText();
+  const { body, footer, close } = createOverlayModal('share-progress-modal', '💌 分享收藏进度', '生成一段可复制的收藏进度，发给朋友展示你的 Chiikawa 家族。');
+  body.innerHTML = `
+    <div class="share-card">
+      <textarea class="share-textarea" id="share-progress-text" readonly>${escapeHtml(shareText)}</textarea>
+      <div class="modal-status" id="share-progress-status">点击下方按钮复制分享文案。</div>
+    </div>
+  `;
+  footer.innerHTML = `
+    <button class="ghost-btn" type="button" id="share-close-btn">关闭</button>
+    <button class="solid-btn" type="button" id="share-copy-btn">复制分享文案</button>
+  `;
+  footer.querySelector('#share-copy-btn').addEventListener('click', async () => {
+    const textArea = body.querySelector('#share-progress-text');
+    const status = body.querySelector('#share-progress-status');
+    try {
+      await navigator.clipboard.writeText(textArea.value);
+      status.textContent = '已复制，可以发给朋友啦。';
+    } catch {
+      textArea.focus();
+      textArea.select();
+      status.textContent = '请手动复制选中的分享文案。';
+    }
+  });
+  footer.querySelector('#share-close-btn').addEventListener('click', close);
+}
+
+function showGithubStarSupport() {
+  const { body, footer, close } = createOverlayModal('github-star-modal', '⭐ GitHub 仓库点个 Star 支持下~', '如果这个收藏图鉴帮到了你，可以打开 GitHub 仓库点个 Star 支持一下。');
+  body.innerHTML = `
+    <div class="disclaimer-box">
+      <strong>支持方式</strong><br>
+      点击下方按钮打开 GitHub 仓库，然后在页面右上角点击 Star。<br><br>
+      仓库地址：<br>
+      <a href="https://github.com/02zee/jiwusales_chiikawa" target="_blank" rel="noopener noreferrer">https://github.com/02zee/jiwusales_chiikawa</a>
+    </div>
+  `;
+  footer.innerHTML = `
+    <button class="ghost-btn" type="button" id="github-star-close-btn">稍后再说</button>
+    <button class="solid-btn" type="button" id="github-star-open-btn">打开 GitHub</button>
+  `;
+  footer.querySelector('#github-star-open-btn').addEventListener('click', () => {
+    window.open('https://github.com/02zee/jiwusales_chiikawa', '_blank', 'noopener,noreferrer');
+  });
+  footer.querySelector('#github-star-close-btn').addEventListener('click', close);
+}
+
+function showDisclaimer() {
+  const { body, footer, close } = createOverlayModal('disclaimer-modal', '📜 免责声明', '关于数据来源、版权归属、粉丝向用途和 Fork 基础上新增功能的说明。');
+  body.innerHTML = `
+    <div class="disclaimer-box">
+      <strong>数据来源</strong><br>
+      本页面图鉴数据来源于 JIWU吉物贩售公开图鉴资料整理，仅用于个人收藏管理、进度记录与粉丝交流。<br><br>
+      <strong>版权与商标</strong><br>
+      Chiikawa / 吉伊卡哇相关角色、图片、名称、商标与周边商品版权归其合法权利人所有。本项目不主张拥有相关角色或商品素材版权。<br><br>
+      <strong>项目性质</strong><br>
+      本页面是在 GitHub 上 Fork 的基础上增加交互、待入手清单、分享进度、背景设置等功能，属于非官方、非商业、粉丝向收藏管理工具。<br><br>
+      <strong>侵权处理</strong><br>
+      如权利人认为页面内容存在不当使用，请通过 GitHub 仓库联系维护者，将尽快调整、下架或删除相关内容。<br><br>
+      <strong>隐私说明</strong><br>
+      收藏记录、购入记录、待入手清单和背景设置均保存在你的浏览器本地，不会上传到服务器。
+    </div>
+  `;
+  footer.innerHTML = `<button class="solid-btn" type="button" id="disclaimer-close-btn">我知道了</button>`;
+  footer.querySelector('#disclaimer-close-btn').addEventListener('click', close);
+}
+
 /* ========== OVERALL STATS ========== */
 function computeOverallStats() {
   let totalOwned = 0, totalAll = 0, totalCost = 0;
@@ -1846,6 +2228,8 @@ function createCard(sheet, type, it) {
   const dateDisplay = purchase.date ? `<span class="card-date">📅 ${purchase.date}</span>` : '';
   const metaDisplay = (priceDisplay || dateDisplay) ? `<div class="card-meta">${priceDisplay}${dateDisplay}</div>` : '';
   const actionLabel = (purchase.price || purchase.date) ? '编辑购入' : '记录购入';
+  const wishlistActive = isWishlisted(sheet, type, it.name);
+  const wishlistLabel = wishlistActive ? '已计划' : '想入手';
 
   card.innerHTML = `
     <div class="card-check">
@@ -1859,6 +2243,7 @@ function createCard(sheet, type, it) {
     ${metaDisplay}
     <div class="card-actions">
       <button class="card-action-btn" type="button">${actionLabel}</button>
+      <button class="card-wishlist-btn${wishlistActive ? ' active' : ''}" type="button">${wishlistLabel}</button>
       <button class="card-uncollect-btn" type="button">取消收藏</button>
     </div>
   `;
@@ -1867,6 +2252,19 @@ function createCard(sheet, type, it) {
     event.preventDefault();
     event.stopPropagation();
     editPurchaseRecord(sheet, type, it);
+  });
+
+  card.querySelector(".card-wishlist-btn").addEventListener("click", event => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (isWishlisted(sheet, type, it.name)) {
+      removeWishlistRecord(sheet, type, it.name);
+      renderCards(sheet);
+      return;
+    }
+    if (editWishlistRecord(sheet, type, it)) {
+      renderCards(sheet);
+    }
   });
 
   card.querySelector(".card-uncollect-btn").addEventListener("click", event => {
@@ -1884,6 +2282,12 @@ function createCard(sheet, type, it) {
     const nowCollected = toggleCollected(sheet, type, it.name);
     card.classList.toggle("collected", nowCollected);
     if (nowCollected) {
+      removeWishlistRecord(sheet, type, it.name);
+      const wishlistBtn = card.querySelector(".card-wishlist-btn");
+      if (wishlistBtn) {
+        wishlistBtn.classList.remove("active");
+        wishlistBtn.textContent = "想入手";
+      }
       card.classList.add("just-collected");
       setTimeout(() => card.classList.remove("just-collected"), 450);
     }
@@ -1920,6 +2324,7 @@ function editPurchaseRecord(sheet, type, item) {
       collected.push(key);
       setCollected(sheet, collected);
     }
+    removeWishlistRecord(sheet, type, item.name);
   }
 
   if (sheet === currentSheet) {
@@ -2115,8 +2520,8 @@ function loadSheet(sheet, retryCount = 0) {
             <span class="emoji">😢</span>
             <div>加载失败，请检查网络连接</div>
             <div style="font-size:13px;color:#888;margin-top:8px;">
-              国内网络可能无法直接访问 Google Sheets<br>
-              建议开启 VPN 或代理后刷新重试
+              暂时无法同步 JIWU 图鉴数据<br>
+              请稍后刷新重试，或先使用本地缓存数据
             </div>
             <button onclick="location.reload()" style="margin-top:12px;padding:8px 16px;border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:99px;cursor:pointer;">🔄 刷新重试</button>
           </div>`;
@@ -2225,9 +2630,13 @@ function init() {
 
   // My Collection button
   document.getElementById("my-collection-btn").addEventListener("click", showMyCollection);
+  document.getElementById("share-progress-btn").addEventListener("click", showShareProgress);
+  document.getElementById("wishlist-btn").addEventListener("click", showWishlistPlanner);
   document.getElementById("showcase-btn").addEventListener("click", showCollectionShowcase);
   document.getElementById("timeline-btn").addEventListener("click", showPurchaseTimeline);
   document.getElementById("background-settings-btn").addEventListener("click", showBackgroundSettings);
+  document.getElementById("github-star-btn").addEventListener("click", showGithubStarSupport);
+  document.getElementById("disclaimer-btn").addEventListener("click", showDisclaimer);
 }
 
 /* ========== MY COLLECTION MODAL ========== */

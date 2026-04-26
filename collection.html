@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>吉伊卡哇·我的收藏图鉴</title>
-  <meta property="og:title" content="吉伊卡哇·我的收藏图鉴" />
+  <title>小宝专属</title>
+  <meta property="og:title" content="小宝专属" />
   <meta property="og:description" content="点亮你拥有的宝宝吧！(๑•̀∀•́ฅ ✧" />
   <meta property="og:image" content="https://i.postimg.cc/dV18mp5f/image.png" />
   <link rel="icon" href="https://i.postimg.cc/3R7nNT0k/icon.png" type="image/png" />
@@ -15,6 +15,8 @@
     :root {
       --accent: #d77485;
       --bg: #fdf6f0;
+      --page-bg-image: linear-gradient(135deg, rgba(252,228,236,0.96) 0%, rgba(253,246,240,0.9) 52%, rgba(227,240,251,0.92) 100%);
+      --page-bg-opacity: 0.72;
       --card-bg: #ffffff;
       --text: #333;
       --subtext: #888;
@@ -25,11 +27,19 @@
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
       margin: 0; padding: 0; width: 100%;
-      font-family: 'Segoe UI', 'PingFang SC', Arial, sans-serif;
-      background: #fdf6f0;
+      font-family: 'Microsoft YaHei', 'Noto Sans SC', 'Source Han Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Segoe UI', Arial, sans-serif;
+      background-color: #fdf6f0;
+      background-image: var(--page-bg-image);
+      background-position: center center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
       color: var(--text);
       overflow-x: hidden;
       min-height: 100vh;
+    }
+    button, input, select, textarea {
+      font: inherit;
     }
 
     /* Fixed background image - Onsen scene */
@@ -38,21 +48,26 @@
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: url('bg.jpg') center center / cover no-repeat;
+      background-color: transparent;
+      background-image: var(--page-bg-image);
+      background-position: center center;
+      background-size: cover;
+      background-repeat: no-repeat;
       z-index: 0;
-      opacity: 0.25;
+      opacity: var(--page-bg-opacity);
       pointer-events: none;
     }
 
     /* ===== HEADER ===== */
     .header {
-      background: var(--header-bg);
+      background: rgba(255, 249, 245, 0.78);
       border-bottom: 1px solid var(--border);
       padding: 12px 16px 0 16px;
       position: sticky;
       top: 0;
       z-index: 200;
       box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+      backdrop-filter: blur(16px);
     }
     .header-top {
       display: flex;
@@ -67,9 +82,45 @@
       gap: 10px;
       flex-shrink: 0;
     }
-    .header-logo img {
-      height: 36px;
-      width: auto;
+    .header-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(232, 213, 196, 0.9);
+      box-shadow: 0 8px 20px rgba(126, 90, 105, 0.08);
+    }
+    .header-brand-icon {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.88);
+      padding: 3px;
+      box-shadow: inset 0 0 0 1px rgba(232, 213, 196, 0.9);
+    }
+    .header-brand-copy {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.05;
+    }
+    .header-brand-name {
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      color: #7b6256;
+      white-space: nowrap;
+    }
+    .header-brand-sub {
+      font-size: 10px;
+      font-weight: 700;
+      color: #b59c90;
+      margin-top: 2px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
     }
     .header-title {
       font-size: 15px;
@@ -185,6 +236,32 @@
       color: #fff;
       border-color: var(--accent);
     }
+    .quick-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 0 0 10px 0;
+    }
+    .quick-action-btn {
+      border: 1px solid rgba(255,255,255,0.55);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.82);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 14px;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(215,116,133,0.08);
+      backdrop-filter: blur(10px);
+      transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+    }
+    .quick-action-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px rgba(215,116,133,0.14);
+    }
+    .quick-action-btn:active {
+      transform: scale(0.98);
+    }
 
     /* ===== CHARACTER TABS ===== */
     .char-tabs-wrap {
@@ -247,10 +324,11 @@
       gap: 6px;
       padding: 4px 16px;
       scrollbar-width: none;
-      background: var(--header-bg);
+      background: rgba(255, 249, 245, 0.76);
       border-bottom: 1px solid var(--border);
       position: relative;
       z-index: 10;
+      backdrop-filter: blur(12px);
     }
     .type-nav::-webkit-scrollbar { display: none; }
     .type-nav-item {
@@ -368,11 +446,70 @@
     .card-size {
       font-size: 9px;
       color: var(--subtext);
-      padding: 1px 4px 6px 4px;
+      padding: 1px 4px 3px 4px;
+    }
+    .card-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 2px 4px 6px 4px;
+      border-top: 1px dashed var(--border);
+      margin-top: 2px;
+    }
+    .card-price {
+      font-size: 10px;
+      color: #e67e22;
+      font-weight: 600;
+    }
+    .card-date {
+      font-size: 9px;
+      color: var(--subtext);
+    }
+    .card-actions {
+      padding: 0 6px 8px 6px;
+      display: flex;
+      gap: 4px;
+    }
+    .card-action-btn {
+      flex: 1;
+      min-width: 0;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      background: #fff;
+      color: var(--accent);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 5px 6px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .card-action-btn:active {
+      transform: scale(0.98);
+    }
+    .card-uncollect-btn {
+      flex: 0 0 auto;
+      border: 1px solid #e8c4c4;
+      border-radius: 99px;
+      background: #fff5f5;
+      color: #c47474;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 5px 8px;
+      cursor: pointer;
+      white-space: nowrap;
+      display: none;
+    }
+    .card-uncollect-btn:active {
+      transform: scale(0.98);
+    }
+    .card.collected .card-uncollect-btn {
+      display: block;
     }
     @media (min-width: 768px) {
       .card-name { font-size: 12px; }
       .card-size { font-size: 10px; }
+      .card-price { font-size: 11px; }
+      .card-date { font-size: 10px; }
     }
 
     /* Checkmark badge */
@@ -387,6 +524,7 @@
       justify-content: center;
       box-shadow: 0 1px 4px rgba(0,0,0,0.2);
       transition: transform 0.2s;
+      pointer-events: none;
     }
     .card.collected .card-check {
       display: flex;
@@ -420,6 +558,304 @@
       color: var(--subtext);
     }
     .empty-state .emoji { font-size: 48px; display: block; margin-bottom: 8px; }
+    .overlay-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(72, 49, 58, 0.56);
+      z-index: 1200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      backdrop-filter: blur(6px);
+    }
+    .overlay-panel {
+      width: min(100%, 920px);
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.96);
+      border: 1px solid rgba(255,255,255,0.7);
+      box-shadow: 0 24px 60px rgba(65, 38, 50, 0.22);
+    }
+    .overlay-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 22px 22px 16px 22px;
+      background: linear-gradient(135deg, rgba(255,246,250,0.96), rgba(243,250,255,0.94));
+      border-bottom: 1px solid rgba(223, 204, 204, 0.7);
+    }
+    .overlay-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #5f3f3a;
+      margin: 0;
+    }
+    .overlay-subtitle {
+      font-size: 13px;
+      color: #8a6b74;
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+    .overlay-close {
+      width: 38px;
+      height: 38px;
+      border: none;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.92);
+      color: #8c6a6a;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .overlay-body {
+      padding: 18px 22px 22px 22px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .overlay-footer {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      padding: 16px 22px 22px 22px;
+      border-top: 1px solid rgba(230, 223, 223, 0.75);
+      background: rgba(250,248,248,0.92);
+    }
+    .ghost-btn,
+    .solid-btn {
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid var(--border);
+    }
+    .ghost-btn {
+      background: #fff;
+      color: var(--accent);
+    }
+    .solid-btn {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .summary-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .summary-chip {
+      min-width: 110px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(252,228,236,0.78), rgba(255,255,255,0.92));
+      border: 1px solid rgba(228, 213, 196, 0.9);
+      box-shadow: 0 6px 18px rgba(215,116,133,0.08);
+    }
+    .summary-chip strong {
+      display: block;
+      font-size: 20px;
+      color: #5f3f3a;
+      margin-bottom: 3px;
+    }
+    .summary-chip span {
+      font-size: 11px;
+      color: #8a6b74;
+    }
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+    }
+    .showcase-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,244,244,0.96));
+      border-radius: 18px;
+      border: 1px solid rgba(233, 217, 217, 0.95);
+      overflow: hidden;
+      box-shadow: 0 14px 28px rgba(126, 90, 105, 0.08);
+    }
+    .showcase-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: contain;
+      display: block;
+      background: rgba(255,255,255,0.84);
+      padding: 16px;
+    }
+    .showcase-card-body {
+      padding: 14px 14px 16px 14px;
+    }
+    .showcase-card-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #5f3f3a;
+      line-height: 1.35;
+    }
+    .showcase-card-sub {
+      font-size: 12px;
+      color: #8a6b74;
+      margin-top: 4px;
+    }
+    .showcase-card-meta {
+      font-size: 11px;
+      color: #90757e;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+    .timeline-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 16px 56px minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(231, 220, 220, 0.95);
+    }
+    .timeline-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #d77485, #f9be3c);
+      box-shadow: 0 0 0 4px rgba(215,116,133,0.12);
+    }
+    .timeline-thumb {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      object-fit: contain;
+      background: #fff;
+      border: 1px solid rgba(233, 220, 220, 0.9);
+      padding: 6px;
+    }
+    .timeline-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #5f3f3a;
+    }
+    .timeline-sub {
+      font-size: 12px;
+      color: #8a6b74;
+      margin-top: 4px;
+    }
+    .timeline-meta {
+      text-align: right;
+      font-size: 12px;
+      color: #8a6b74;
+    }
+    .timeline-meta strong {
+      display: block;
+      font-size: 15px;
+      color: #e67e22;
+      margin-bottom: 3px;
+    }
+    .bg-preview {
+      position: relative;
+      min-height: 180px;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid rgba(233, 220, 220, 0.92);
+      background: linear-gradient(135deg, rgba(252,228,236,0.96), rgba(227,240,251,0.94));
+    }
+    .bg-preview-image {
+      position: absolute;
+      inset: 0;
+      background-position: center center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      opacity: var(--page-bg-opacity);
+    }
+    .bg-preview-label {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      z-index: 1;
+      padding: 10px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(8px);
+      color: #5f3f3a;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .form-field span {
+      font-size: 13px;
+      font-weight: 700;
+      color: #6f5150;
+    }
+    .text-input,
+    .file-input,
+    .range-input {
+      width: 100%;
+    }
+    .text-input,
+    .file-input {
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      background: #fff;
+      color: var(--text);
+      padding: 11px 14px;
+      font-size: 13px;
+      outline: none;
+    }
+    .text-input:focus {
+      border-color: var(--accent);
+    }
+    .range-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .range-value {
+      min-width: 42px;
+      text-align: right;
+      font-size: 12px;
+      color: #8a6b74;
+      font-weight: 700;
+    }
+    .modal-status {
+      min-height: 20px;
+      font-size: 12px;
+      color: #8a6b74;
+    }
+    @media (max-width: 640px) {
+      .overlay-panel {
+        width: 100%;
+        max-height: 90vh;
+        border-radius: 20px;
+      }
+      .overlay-header,
+      .overlay-body,
+      .overlay-footer {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+      .timeline-item {
+        grid-template-columns: 12px 48px minmax(0, 1fr);
+      }
+      .timeline-meta {
+        grid-column: 2 / span 2;
+        text-align: left;
+      }
+    }
 
     /* ===== RESET SECTION ===== */
     .reset-section {
@@ -502,8 +938,14 @@
   <!-- Header top row -->
   <div class="header-top">
     <div class="header-logo">
-      <img src="https://i.postimg.cc/CLBFxHs3/logo-banner.png" alt="JIWU LOGO" />
-      <span class="header-title">我的收藏图鉴</span>
+      <div class="header-brand" aria-label="小宝专属">
+        <img class="header-brand-icon" src="OIP-C.jpg" alt="小宝专属" />
+        <div class="header-brand-copy">
+          <span class="header-brand-name">小宝专属</span>
+          <span class="header-brand-sub">XIAOBAO</span>
+        </div>
+      </div>
+      <span class="header-title">小宝专属</span>
     </div>
   </div>
 
@@ -521,12 +963,19 @@
       <span class="stat-num" id="stat-missing">0</span>
       <span class="stat-label">待入手</span>
     </div>
+    <div class="stat-item" style="border-left:1px solid var(--border);padding-left:12px;">
+      <span class="stat-num" id="stat-cost" style="color:#e67e22;font-size:18px;">¥0</span>
+      <span class="stat-label">总花费</span>
+    </div>
     <div class="stats-bar-wrap">
       <div class="stats-bar-track">
         <div class="stats-bar-fill" id="stats-bar-fill" style="width:0%"></div>
       </div>
       <div class="stats-percent" id="stats-percent">0%</div>
     </div>
+    <button id="my-collection-btn" style="margin-left:8px;padding:6px 12px;background:var(--accent);color:#fff;border:none;border-radius:99px;font-size:12px;cursor:pointer;white-space:nowrap;">
+      ⭐ 我的收藏
+    </button>
   </div>
 
   <!-- Search & Filter -->
@@ -540,6 +989,11 @@
       <button class="filter-btn" data-filter="collected">已点亮</button>
       <button class="filter-btn" data-filter="uncollected">未点亮</button>
     </div>
+  </div>
+  <div class="quick-actions">
+    <button class="quick-action-btn" id="showcase-btn" type="button">🏛️ 收藏橱窗</button>
+    <button class="quick-action-btn" id="timeline-btn" type="button">🗓️ 购入时间线</button>
+    <button class="quick-action-btn" id="background-settings-btn" type="button">🖼️ 背景设置</button>
   </div>
 
   <!-- Character Tabs -->
@@ -591,65 +1045,676 @@ const ICONS = {
 };
 
 const SHEET_LABELS = {
+  "吉伊": "吉伊",
+  "小八": "小八",
   "兔兔": "乌萨奇",
   "小桃": "飞鼠",
   "師傅": "师傅",
-  "獅薩": "狮萨"
+  "栗子": "栗子",
+  "獅薩": "狮萨",
+  "古本": "古本",
+  "其他角色": "其他角色"
 };
 
-function getSheetLabel(sheetName) {
-  return SHEET_LABELS[sheetName] || sheetName;
+const SIMPLIFIED_TEXT_MAP = {
+  "師傅": "师傅",
+  "獅薩": "狮萨",
+  "烏薩奇": "乌萨奇",
+  "圖鑑": "图鉴",
+  "購入": "购入",
+  "記錄": "记录",
+  "編輯": "编辑",
+  "點亮": "点亮",
+  "點擊": "点击",
+  "點": "点",
+  "還": "还",
+  "寶寶": "宝宝",
+  "當前": "当前",
+  "預設": "预设",
+  "設置": "设置",
+  "設為": "设为",
+  "鏈接": "链接",
+  "導入": "导入",
+  "應用": "应用",
+  "顯示": "显示",
+  "關閉": "关闭",
+  "橱窗": "橱窗",
+  "時間線": "时间线",
+  "時間": "时间",
+  "專屬": "专属",
+  "總花費": "总花费",
+  "未記金額": "未记金额",
+  "未記日期": "未记日期",
+  "名稱": "名称",
+  "類型": "类型"
+};
+
+function toSimplifiedText(value) {
+  const text = String(value ?? '');
+  if (!text) return '';
+  return Object.entries(SIMPLIFIED_TEXT_MAP).reduce((result, [traditional, simplified]) => {
+    return result.split(traditional).join(simplified);
+  }, text);
 }
 
-/* ========== STATE ========== */
-let currentSheet = "吉伊";
-let currentFilter = "all";
-let searchQuery = "";
-let allData = {};     // sheetName -> [{type,name,imgUrl,size}]
-let tabEls = {};      // sheetName -> tab DOM el
+        function getSheetLabel(sheetName) {
+          return toSimplifiedText(SHEET_LABELS[sheetName] || sheetName);
+        }
 
-/* ========== STORAGE HELPERS ========== */
-function storageKey(sheet) { return `collected_v2_${sheet}`; }
-function getCollected(sheet) {
-  return JSON.parse(localStorage.getItem(storageKey(sheet))) || [];
+        /* ========== STATE ========== */
+        let currentSheet = "吉伊";
+        let currentFilter = "all";
+        let searchQuery = "";
+        let allData = {};     // sheetName -> [{type,name,itemCode,imgUrl,productUrl,size,jpName}]
+        let tabEls = {};      // sheetName -> tab DOM el
+        let sheetFetchPromises = {};
+        let sheetSynced = {};
+
+        /* ========== STORAGE HELPERS ========== */
+        function storageKey(sheet) { return `collected_v2_${sheet}`; }
+        function dataCacheKey(sheet) { return `collection_sheet_cache_${sheet}`; }
+        const CUSTOM_BACKGROUND_STORAGE_KEY = 'collectionBackground';
+        const BACKGROUND_OPACITY_STORAGE_KEY = 'collectionBackgroundOpacity';
+        const DEFAULT_BACKGROUND_OPACITY = 0.72;
+        const BACKGROUND_STORAGE_KEYS = [
+          CUSTOM_BACKGROUND_STORAGE_KEY,
+          'siteBackground',
+          'customBackground',
+          'bgImage',
+          'backgroundImage',
+          'pageBackground'
+        ];
+        const DEFAULT_BACKGROUND_VALUE = "linear-gradient(135deg, rgba(252,228,236,0.96) 0%, rgba(253,246,240,0.9) 52%, rgba(227,240,251,0.92) 100%)";
+        function purchaseStorageKey() { return "collection_purchase_records_v1"; }
+        function getItemKey(sheet, type, name) { return `${sheet}|${type}|${name}`; }
+        function getCollected(sheet) {
+          try {
+            const raw = localStorage.getItem(storageKey(sheet));
+            const parsed = raw ? JSON.parse(raw) : [];
+            return Array.isArray(parsed) ? parsed : [];
+          } catch {
+            return [];
+          }
+        }
+        function setCollected(sheet, arr) {
+          try {
+            const next = Array.from(new Set(Array.isArray(arr) ? arr : []));
+            localStorage.setItem(storageKey(sheet), JSON.stringify(next));
+          } catch {}
+        }
+        function isCollected(sheet, type, name) {
+          return getCollected(sheet).includes(getItemKey(sheet, type, name));
+        }
+        function toggleCollected(sheet, type, name) {
+          let c = getCollected(sheet);
+          const key = getItemKey(sheet, type, name);
+          if (c.includes(key)) { c = c.filter(k => k !== key); }
+          else { c.push(key); }
+          setCollected(sheet, c);
+          return c.includes(key);
+        }
+        function getAllPurchaseRecords() {
+          try {
+            const raw = localStorage.getItem(purchaseStorageKey());
+            const parsed = raw ? JSON.parse(raw) : {};
+            return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+          } catch {
+            return {};
+          }
+        }
+        function getPurchaseRecord(sheet, type, name) {
+          const record = getAllPurchaseRecords()[getItemKey(sheet, type, name)] || {};
+          return {
+            price: String(record.price || "").trim(),
+            date: String(record.date || "").trim()
+          };
+        }
+        function setPurchaseRecord(sheet, type, name, record) {
+          const records = getAllPurchaseRecords();
+          const key = getItemKey(sheet, type, name);
+          const next = {
+            price: String(record?.price || "").trim(),
+            date: String(record?.date || "").trim()
+          };
+          if (!next.price && !next.date) delete records[key];
+          else records[key] = next;
+          try {
+            localStorage.setItem(purchaseStorageKey(), JSON.stringify(records));
+          } catch {}
+        }
+
+function normalizeSheetItem(item) {
+  if (!item || typeof item !== "object") return null;
+  const type = String(item.type || "").trim();
+  const name = String(item.name || "").trim();
+  if (!name || (type === "類型" && name === "名稱")) return null;
+  return {
+    type: type || "无类型",
+    name,
+    itemCode: String(item.itemCode ?? item.price ?? "").trim(),
+    imgUrl: String(item.imgUrl || "").trim(),
+    productUrl: String(item.productUrl ?? item.date ?? "").trim(),
+    size: String(item.size || "").trim(),
+    jpName: String(item.jpName || "").trim()
+  };
 }
-function setCollected(sheet, arr) {
-  localStorage.setItem(storageKey(sheet), JSON.stringify(arr));
+
+function getCachedSheetData(sheet) {
+  try {
+    const raw = localStorage.getItem(dataCacheKey(sheet));
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed)
+      ? parsed.map(normalizeSheetItem).filter(Boolean)
+      : [];
+  } catch {
+    return [];
+  }
 }
-function isCollected(sheet, type, name) {
-  return getCollected(sheet).includes(`${sheet}|${type}|${name}`);
+
+function setCachedSheetData(sheet, data) {
+  try {
+    const normalized = Array.isArray(data) ? data.map(normalizeSheetItem).filter(Boolean) : [];
+    localStorage.setItem(dataCacheKey(sheet), JSON.stringify(normalized));
+  } catch {}
 }
-function toggleCollected(sheet, type, name) {
-  let c = getCollected(sheet);
-  const key = `${sheet}|${type}|${name}`;
-  if (c.includes(key)) { c = c.filter(k => k !== key); }
-  else { c.push(key); }
-  setCollected(sheet, c);
-  return c.includes(key);
+
+function parsePriceValue(price) {
+  if (price === null || price === undefined) return 0;
+  const normalized = String(price).replace(/,/g, '').trim();
+  if (!normalized) return 0;
+  const match = normalized.match(/\d+(?:\.\d+)?/);
+  if (!match) return 0;
+  const value = parseFloat(match[0]);
+  return Number.isFinite(value) ? value : 0;
+}
+
+function formatCurrency(amount) {
+  if (!Number.isFinite(amount) || amount <= 0) return '¥0';
+  if (amount >= 10000) return `¥${(amount / 10000).toFixed(1)}w`;
+  const text = Number.isInteger(amount) ? String(amount) : amount.toFixed(2).replace(/\.?0+$/, '');
+  return `¥${text}`;
+}
+
+function formatPurchasePrice(price) {
+  const raw = String(price ?? '').trim();
+  if (!raw) return '';
+  if (/^[¥￥$]/.test(raw)) return raw;
+  const value = parsePriceValue(raw);
+  return Number.isFinite(value) ? formatCurrency(value) : raw;
+}
+
+function extractBackgroundCandidates(value) {
+  if (!value) return [];
+  const raw = String(value).trim();
+  if (!raw) return [];
+  if ((raw.startsWith('{') && raw.endsWith('}')) || (raw.startsWith('[') && raw.endsWith(']'))) {
+    try {
+      const parsed = JSON.parse(raw);
+      if (typeof parsed === 'string') return [parsed];
+      if (parsed && typeof parsed === 'object') {
+        return [parsed.url, parsed.src, parsed.image, parsed.value, parsed.background, parsed.path].filter(Boolean).map(String);
+      }
+    } catch {}
+  }
+  return [raw];
+}
+
+function normalizeBackgroundValue(value) {
+  const raw = String(value ?? '').trim();
+  if (!raw) return '';
+  if (/^url\(/i.test(raw) || /gradient\(/i.test(raw)) return raw;
+  const unquoted = raw.replace(/^['"]|['"]$/g, '');
+  if (
+    /^(https?:\/\/|data:image\/|blob:)/i.test(unquoted) ||
+    /^[./]/.test(unquoted) ||
+    /\.(png|jpe?g|gif|webp|svg)(\?.*)?$/i.test(unquoted)
+  ) {
+    const safeValue = unquoted.replace(/"/g, '\\"');
+    return `url("${safeValue}")`;
+  }
+  return '';
+}
+
+function clampNumber(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function getStoredBackgroundValue() {
+  const candidates = [];
+  BACKGROUND_STORAGE_KEYS.forEach(key => {
+    extractBackgroundCandidates(localStorage.getItem(key)).forEach(candidate => candidates.push(candidate));
+  });
+  return candidates.map(normalizeBackgroundValue).find(Boolean) || DEFAULT_BACKGROUND_VALUE;
+}
+
+function getBackgroundOpacity() {
+  try {
+    const raw = parseFloat(localStorage.getItem(BACKGROUND_OPACITY_STORAGE_KEY));
+    return Number.isFinite(raw) ? clampNumber(raw, 0.35, 1) : DEFAULT_BACKGROUND_OPACITY;
+  } catch {
+    return DEFAULT_BACKGROUND_OPACITY;
+  }
+}
+
+function setBackgroundOpacity(value) {
+  const next = clampNumber(Number(value) || DEFAULT_BACKGROUND_OPACITY, 0.35, 1);
+  try {
+    localStorage.setItem(BACKGROUND_OPACITY_STORAGE_KEY, String(next));
+  } catch {}
+  return next;
+}
+
+function setCustomBackgroundValue(value) {
+  const raw = String(value ?? '').trim();
+  try {
+    if (raw) localStorage.setItem(CUSTOM_BACKGROUND_STORAGE_KEY, raw);
+    else localStorage.removeItem(CUSTOM_BACKGROUND_STORAGE_KEY);
+    applyStoredBackground();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function clearCustomBackgroundValue() {
+  try {
+    localStorage.removeItem(CUSTOM_BACKGROUND_STORAGE_KEY);
+    applyStoredBackground();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function describeCurrentBackground(value) {
+  if (!value || value === DEFAULT_BACKGROUND_VALUE) return '当前使用默认柔和渐变背景';
+  if (/^url\(/i.test(value)) return '当前使用你导入的图片背景';
+  if (/gradient\(/i.test(value)) return '当前使用渐变背景';
+  return '当前已应用自定义背景';
+}
+
+function applyStoredBackground() {
+  const selected = getStoredBackgroundValue();
+  const opacity = getBackgroundOpacity();
+  document.documentElement.style.setProperty('--page-bg-image', selected);
+  document.documentElement.style.setProperty('--page-bg-opacity', opacity.toFixed(2));
+  document.body.style.backgroundImage = selected;
+  document.body.style.backgroundAttachment = 'fixed';
+  const preview = document.getElementById('bg-preview-image');
+  if (preview) {
+    preview.style.backgroundImage = selected;
+    preview.style.opacity = opacity.toFixed(2);
+  }
+  const label = document.getElementById('bg-preview-label');
+  if (label) label.textContent = describeCurrentBackground(selected);
+  const opacityInput = document.getElementById('bg-opacity-input');
+  if (opacityInput) opacityInput.value = String(Math.round(opacity * 100));
+  const opacityValue = document.getElementById('bg-opacity-value');
+  if (opacityValue) opacityValue.textContent = `${Math.round(opacity * 100)}%`;
+}
+
+function readFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ''));
+    reader.onerror = () => reject(new Error('read_failed'));
+    reader.readAsDataURL(file);
+  });
+}
+
+function downscaleBackgroundDataUrl(dataUrl) {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => {
+      const maxWidth = 1600;
+      const ratio = image.width > maxWidth ? maxWidth / image.width : 1;
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(image.width * ratio));
+      canvas.height = Math.max(1, Math.round(image.height * ratio));
+      const context = canvas.getContext('2d');
+      if (!context) {
+        resolve(dataUrl);
+        return;
+      }
+      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      try {
+        resolve(canvas.toDataURL('image/jpeg', 0.92));
+      } catch {
+        resolve(dataUrl);
+      }
+    };
+    image.onerror = () => reject(new Error('image_parse_failed'));
+    image.src = dataUrl;
+  });
+}
+
+function importBackgroundFile(file) {
+  return readFileAsDataUrl(file).then(downscaleBackgroundDataUrl);
+}
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function closeOverlayModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) modal.remove();
+}
+
+function createOverlayModal(modalId, title, subtitle = '') {
+  closeOverlayModal(modalId);
+  const modal = document.createElement('div');
+  modal.id = modalId;
+  modal.className = 'overlay-modal';
+  modal.innerHTML = `
+    <div class="overlay-panel">
+      <div class="overlay-header">
+        <div>
+          <h2 class="overlay-title">${title}</h2>
+          ${subtitle ? `<div class="overlay-subtitle">${subtitle}</div>` : ''}
+        </div>
+        <button class="overlay-close" type="button" aria-label="关闭">×</button>
+      </div>
+      <div class="overlay-body"></div>
+      <div class="overlay-footer"></div>
+    </div>
+  `;
+  const close = () => modal.remove();
+  modal.addEventListener('click', event => {
+    if (event.target === modal) close();
+  });
+  modal.querySelector('.overlay-close').addEventListener('click', close);
+  document.body.appendChild(modal);
+  return {
+    modal,
+    body: modal.querySelector('.overlay-body'),
+    footer: modal.querySelector('.overlay-footer'),
+    close
+  };
+}
+
+function parsePurchaseDateValue(value) {
+  const raw = String(value ?? '').trim();
+  if (!raw) return 0;
+  const normalized = raw.replace(/[./]/g, '-');
+  const parsed = Date.parse(normalized);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function getCollectedItems() {
+  const collected = [];
+  SHEET_NAMES.forEach(s => {
+    const source = (allData[s] && allData[s].length) ? allData[s] : getCachedSheetData(s);
+    if ((!allData[s] || !allData[s].length) && source.length) {
+      allData[s] = source;
+    }
+    const c = getCollected(s);
+    source.forEach(it => {
+      if (c.includes(getItemKey(s, it.type, it.name))) {
+        const purchase = getPurchaseRecord(s, it.type, it.name);
+        collected.push({
+          ...it,
+          sheet: s,
+          sheetLabel: getSheetLabel(s),
+          displayName: toSimplifiedText(it.name),
+          displayType: toSimplifiedText(it.type),
+          displaySize: toSimplifiedText(it.size),
+          purchasePrice: purchase.price,
+          purchaseDate: purchase.date
+        });
+      }
+    });
+  });
+  return collected;
+}
+
+function buildCollectedSummary(collected) {
+  return {
+    total: collected.length,
+    totalCost: collected.reduce((sum, it) => sum + parsePriceValue(it.purchasePrice), 0),
+    recordedCount: collected.filter(it => it.purchasePrice || it.purchaseDate).length,
+    datedCount: collected.filter(it => it.purchaseDate).length,
+    sheetCount: new Set(collected.map(it => it.sheet)).size
+  };
+}
+
+function buildSummaryChipsHtml(summary) {
+  return `
+    <div class="summary-chips">
+      <div class="summary-chip"><strong>${summary.total}</strong><span>已收藏宝宝</span></div>
+      <div class="summary-chip"><strong>${summary.sheetCount}</strong><span>点亮角色页</span></div>
+      <div class="summary-chip"><strong>${summary.recordedCount}</strong><span>已记录购入</span></div>
+      <div class="summary-chip"><strong>${formatCurrency(summary.totalCost)}</strong><span>累计花费</span></div>
+    </div>
+  `;
+}
+
+function getShowcaseItems(collected, limit = 8) {
+  return [...collected]
+    .sort((a, b) => {
+      const dateDiff = parsePurchaseDateValue(b.purchaseDate) - parsePurchaseDateValue(a.purchaseDate);
+      if (dateDiff) return dateDiff;
+      const priceDiff = parsePriceValue(b.purchasePrice) - parsePriceValue(a.purchasePrice);
+      if (priceDiff) return priceDiff;
+      return String(a.name || '').localeCompare(String(b.name || ''), 'zh-Hans-CN');
+    })
+    .slice(0, limit);
+}
+
+function showCollectionShowcase() {
+  const collected = getCollectedItems();
+  const summary = buildCollectedSummary(collected);
+  const featured = getShowcaseItems(collected, 8);
+  const { body, footer, close } = createOverlayModal('showcase-modal', '🏛️ 收藏橱窗', '把你最喜欢的宝宝集中展示在高光橱窗里。');
+
+  if (!collected.length) {
+    body.innerHTML = `<div class="empty-state"><span class="emoji">🏛️</span>先去图鉴里点亮一些宝宝，再来布置你的橱窗吧。</div>`;
+  } else {
+    body.innerHTML = `
+      ${buildSummaryChipsHtml(summary)}
+      <div class="showcase-grid">
+        ${featured.map(it => `
+          <div class="showcase-card">
+            <img src="${escapeHtml(it.imgUrl || 'https://i.postimg.cc/bv5xRs04/image.png')}" alt="${escapeHtml(it.displayName || toSimplifiedText(it.name))}" />
+            <div class="showcase-card-body">
+              <div class="showcase-card-title">${escapeHtml(it.displayName || toSimplifiedText(it.name))}</div>
+              <div class="showcase-card-sub">${escapeHtml(it.sheetLabel)} · ${escapeHtml(it.displayType || toSimplifiedText(it.type))}</div>
+              <div class="showcase-card-meta">
+                ${it.purchasePrice ? `💰 ${escapeHtml(formatPurchasePrice(it.purchasePrice))}<br>` : ''}
+                ${it.purchaseDate ? `📅 ${escapeHtml(it.purchaseDate)}` : '✨ 已点亮收藏'}
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  footer.innerHTML = `<button class="ghost-btn" type="button" id="showcase-close-btn">关闭橱窗</button>`;
+  footer.querySelector('#showcase-close-btn').addEventListener('click', close);
+}
+
+function showPurchaseTimeline() {
+  const collected = getCollectedItems()
+    .filter(it => it.purchaseDate || it.purchasePrice)
+    .sort((a, b) => {
+      const dateDiff = parsePurchaseDateValue(b.purchaseDate) - parsePurchaseDateValue(a.purchaseDate);
+      if (dateDiff) return dateDiff;
+      return parsePriceValue(b.purchasePrice) - parsePriceValue(a.purchasePrice);
+    });
+  const summary = buildCollectedSummary(collected);
+  const { body, footer, close } = createOverlayModal('timeline-modal', '🗓️ 购入时间线', '按日期回看你的收藏旅程，也方便补录金额和日期。');
+
+  if (!collected.length) {
+    body.innerHTML = `<div class="empty-state"><span class="emoji">🗓️</span>还没有购入记录哦，先给宝宝补上金额或日期吧。</div>`;
+  } else {
+    body.innerHTML = `
+      ${buildSummaryChipsHtml(summary)}
+      <div class="timeline-list">
+        ${collected.map(it => `
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <img class="timeline-thumb" src="${escapeHtml(it.imgUrl || 'https://i.postimg.cc/bv5xRs04/image.png')}" alt="${escapeHtml(it.displayName || toSimplifiedText(it.name))}" />
+            <div>
+              <div class="timeline-title">${escapeHtml(it.displayName || toSimplifiedText(it.name))}</div>
+              <div class="timeline-sub">${escapeHtml(it.sheetLabel)} · ${escapeHtml(it.displayType || toSimplifiedText(it.type))}</div>
+            </div>
+            <div class="timeline-meta">
+              <strong>${it.purchasePrice ? escapeHtml(formatPurchasePrice(it.purchasePrice)) : '未记金额'}</strong>
+              ${escapeHtml(it.purchaseDate || '未记日期')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  footer.innerHTML = `<button class="ghost-btn" type="button" id="timeline-close-btn">关闭时间线</button>`;
+  footer.querySelector('#timeline-close-btn').addEventListener('click', close);
+}
+
+function showBackgroundSettings() {
+  const opacityPercent = Math.round(getBackgroundOpacity() * 100);
+  const { modal, body, footer, close } = createOverlayModal('background-settings-modal', '🖼️ 背景设置', '你可以直接导入本地图片，也可以粘贴图片链接。');
+
+  body.innerHTML = `
+    <div class="bg-preview">
+      <div class="bg-preview-image" id="bg-preview-image"></div>
+      <div class="bg-preview-label" id="bg-preview-label"></div>
+    </div>
+    <label class="form-field">
+      <span>导入背景图片</span>
+      <input class="file-input" id="bg-file-input" type="file" accept="image/*" />
+    </label>
+    <label class="form-field">
+      <span>或者粘贴图片链接</span>
+      <input class="text-input" id="bg-url-input" type="text" placeholder="https://example.com/your-background.jpg" />
+    </label>
+    <div class="form-field">
+      <span>背景可见度</span>
+      <div class="range-row">
+        <input class="range-input" id="bg-opacity-input" type="range" min="35" max="100" step="1" value="${opacityPercent}" />
+        <div class="range-value" id="bg-opacity-value">${opacityPercent}%</div>
+      </div>
+    </div>
+    <div class="modal-status" id="bg-status">想用你刚才那张图的话，直接在这里选择本地图片文件就可以。</div>
+  `;
+
+  footer.innerHTML = `
+    <button class="ghost-btn" type="button" id="bg-reset-btn">恢复默认/同步</button>
+    <button class="ghost-btn" type="button" id="bg-close-btn">完成</button>
+    <button class="solid-btn" type="button" id="bg-apply-url-btn">应用链接</button>
+  `;
+
+  const fileInput = modal.querySelector('#bg-file-input');
+  const urlInput = modal.querySelector('#bg-url-input');
+  const statusEl = modal.querySelector('#bg-status');
+  const opacityInput = modal.querySelector('#bg-opacity-input');
+  const opacityValue = modal.querySelector('#bg-opacity-value');
+  const preview = modal.querySelector('#bg-preview-image');
+
+  const syncPreview = () => {
+    const selected = getStoredBackgroundValue();
+    preview.style.backgroundImage = selected;
+    preview.style.opacity = getBackgroundOpacity().toFixed(2);
+    applyStoredBackground();
+    opacityValue.textContent = `${Math.round(getBackgroundOpacity() * 100)}%`;
+  };
+
+  syncPreview();
+
+  fileInput.addEventListener('change', async () => {
+    const file = fileInput.files && fileInput.files[0];
+    if (!file) return;
+    statusEl.textContent = `正在导入「${file.name}」…`;
+    try {
+      const dataUrl = await importBackgroundFile(file);
+      if (!setCustomBackgroundValue(dataUrl)) {
+        statusEl.textContent = '保存失败，可能是图片太大了，请换一张更小的图。';
+        return;
+      }
+      statusEl.textContent = `已应用背景图：${file.name}`;
+      urlInput.value = '';
+      syncPreview();
+    } catch (error) {
+      console.error('Import background failed:', error);
+      statusEl.textContent = '导入失败，请换一张图片重试。';
+    }
+  });
+
+  opacityInput.addEventListener('input', () => {
+    const next = clampNumber(Number(opacityInput.value) / 100, 0.35, 1);
+    preview.style.opacity = next.toFixed(2);
+    opacityValue.textContent = `${Math.round(next * 100)}%`;
+  });
+
+  opacityInput.addEventListener('change', () => {
+    const next = setBackgroundOpacity(Number(opacityInput.value) / 100);
+    statusEl.textContent = `背景可见度已更新为 ${Math.round(next * 100)}%`;
+    syncPreview();
+  });
+
+  footer.querySelector('#bg-apply-url-btn').addEventListener('click', () => {
+    const raw = urlInput.value.trim();
+    if (!raw) {
+      statusEl.textContent = '请先粘贴一个图片链接。';
+      return;
+    }
+    if (!normalizeBackgroundValue(raw)) {
+      statusEl.textContent = '这个链接看起来不像图片地址，请重新检查。';
+      return;
+    }
+    if (!setCustomBackgroundValue(raw)) {
+      statusEl.textContent = '保存背景失败，请稍后再试。';
+      return;
+    }
+    statusEl.textContent = '图片链接已应用到背景。';
+    syncPreview();
+  });
+
+  footer.querySelector('#bg-reset-btn').addEventListener('click', () => {
+    clearCustomBackgroundValue();
+    urlInput.value = '';
+    fileInput.value = '';
+    statusEl.textContent = '已恢复为默认/同步背景。';
+    syncPreview();
+  });
+
+  footer.querySelector('#bg-close-btn').addEventListener('click', close);
 }
 
 /* ========== OVERALL STATS ========== */
 function computeOverallStats() {
-  let totalOwned = 0, totalAll = 0;
+  let totalOwned = 0, totalAll = 0, totalCost = 0;
   SHEET_NAMES.forEach(s => {
     const data = allData[s] || [];
     const c = getCollected(s);
     totalAll += data.length;
-    totalOwned += data.filter(it => c.includes(`${s}|${it.type}|${it.name}`)).length;
+    data.forEach(it => {
+      if (c.includes(getItemKey(s, it.type, it.name))) {
+        totalOwned++;
+        totalCost += parsePriceValue(getPurchaseRecord(s, it.type, it.name).price);
+      }
+    });
   });
-  return { owned: totalOwned, total: totalAll };
+  return { owned: totalOwned, total: totalAll, cost: totalCost };
 }
 function updateOverallStats() {
-  const { owned, total } = computeOverallStats();
+  const { owned, total, cost } = computeOverallStats();
   document.getElementById("stat-owned").textContent = owned;
   document.getElementById("stat-total").textContent = total;
   document.getElementById("stat-missing").textContent = total - owned;
+  document.getElementById("stat-cost").textContent = formatCurrency(cost);
   const pct = total ? Math.round(owned / total * 100) : 0;
   document.getElementById("stats-bar-fill").style.width = pct + "%";
   document.getElementById("stats-percent").textContent = pct + "%";
 }
 
-/* ========== CHARACTER TABS ========== */
 function buildCharTabs() {
   const wrap = document.getElementById("char-tabs");
   wrap.innerHTML = "";
@@ -662,12 +1727,13 @@ function buildCharTabs() {
     wrap.appendChild(tab);
   });
 }
+
 function updateCharTab(s) {
   const tab = tabEls[s];
   if (!tab) return;
   const data = allData[s] || [];
   const c = getCollected(s);
-  const owned = data.filter(it => c.includes(`${s}|${it.type}|${it.name}`)).length;
+  const owned = data.filter(it => c.includes(getItemKey(s, it.type, it.name))).length;
   const total = data.length;
   const pct = total ? owned / total : 0;
   const R = 22, SW = 3, CIRC = 2 * Math.PI * R;
@@ -697,7 +1763,7 @@ function buildTypeNav(types) {
   types.forEach(type => {
     const el = document.createElement("div");
     el.className = "type-nav-item";
-    el.textContent = type;
+    el.textContent = toSimplifiedText(type);
     el.addEventListener("click", () => {
       const target = document.getElementById(`section-${CSS.escape(type)}`);
       if (target) {
@@ -738,9 +1804,9 @@ function renderCards(sheet) {
     header.className = "section-header";
     header.id = `hdr-${type}`;
     const c = getCollected(sheet);
-    const owned = items.filter(it => c.includes(`${sheet}|${type}|${it.name}`)).length;
+    const owned = items.filter(it => c.includes(getItemKey(sheet, type, it.name))).length;
     header.innerHTML = `
-      <span class="section-title">${type}</span>
+      <span class="section-title">${toSimplifiedText(type)}</span>
       <span class="section-badge" id="badge-${type}">
         <span class="owned" id="owned-${type}">${owned}</span>/${items.length}
       </span>`;
@@ -762,26 +1828,57 @@ function renderCards(sheet) {
 function createCard(sheet, type, it) {
   const card = document.createElement("div");
   card.className = "card";
-  card.dataset.name = it.name.toLowerCase();
+  const displayName = toSimplifiedText(it.name);
+  const displayType = toSimplifiedText(type);
+  const displaySize = toSimplifiedText(it.size || '');
+  card.dataset.name = displayName.toLowerCase();
   card.dataset.type = type;
   card.style.setProperty("--card-color", COLORS[sheet] || "#d77485");
   const collected = isCollected(sheet, type, it.name);
   if (collected) card.classList.add("collected");
+  const purchase = getPurchaseRecord(sheet, type, it.name);
 
-  const safeName = it.name.length > 9
-    ? it.name.slice(0, 9) + "<br>" + it.name.slice(9)
-    : it.name;
+  const safeName = displayName.length > 9
+    ? displayName.slice(0, 9) + "<br>" + displayName.slice(9)
+    : displayName;
+
+  const priceDisplay = purchase.price ? `<span class="card-price">💰 ${formatPurchasePrice(purchase.price)}</span>` : '';
+  const dateDisplay = purchase.date ? `<span class="card-date">📅 ${purchase.date}</span>` : '';
+  const metaDisplay = (priceDisplay || dateDisplay) ? `<div class="card-meta">${priceDisplay}${dateDisplay}</div>` : '';
+  const actionLabel = (purchase.price || purchase.date) ? '编辑购入' : '记录购入';
 
   card.innerHTML = `
     <div class="card-check">
       <svg viewBox="0 0 16 16"><path d="M6 11.2L3.3 8.5l-1.4 1.4L6 14 14 6l-1.4-1.4z"/></svg>
     </div>
     <div class="card-img-wrap">
-      <img src="${it.imgUrl || 'https://i.postimg.cc/bv5xRs04/image.png'}" alt="${it.name}" loading="lazy" />
+      <img src="${it.imgUrl || 'https://i.postimg.cc/bv5xRs04/image.png'}" alt="${displayName}" loading="lazy" />
     </div>
     <div class="card-name">${safeName}</div>
-    <div class="card-size">${it.size || ''}</div>
+    <div class="card-size">${displaySize}</div>
+    ${metaDisplay}
+    <div class="card-actions">
+      <button class="card-action-btn" type="button">${actionLabel}</button>
+      <button class="card-uncollect-btn" type="button">取消收藏</button>
+    </div>
   `;
+
+  card.querySelector(".card-action-btn").addEventListener("click", event => {
+    event.preventDefault();
+    event.stopPropagation();
+    editPurchaseRecord(sheet, type, it);
+  });
+
+  card.querySelector(".card-uncollect-btn").addEventListener("click", event => {
+    event.preventDefault();
+    event.stopPropagation();
+    const nowCollected = toggleCollected(sheet, type, it.name);
+    card.classList.toggle("collected", nowCollected);
+    updateSectionBadge(sheet, type);
+    updateCharTab(sheet);
+    updateOverallStats();
+    applyFilterAndSearch();
+  });
 
   card.addEventListener("click", () => {
     const nowCollected = toggleCollected(sheet, type, it.name);
@@ -798,11 +1895,46 @@ function createCard(sheet, type, it) {
   return card;
 }
 
+function editPurchaseRecord(sheet, type, item) {
+  const current = getPurchaseRecord(sheet, type, item.name);
+  const itemLabel = toSimplifiedText(item.name);
+  const priceInput = window.prompt(`请输入「${itemLabel}」的购买金额（留空可跳过）`, current.price);
+  if (priceInput === null) return;
+  const dateInput = window.prompt(`请输入「${itemLabel}」的购买日期（如 2026-04-26，留空可跳过，输入 - 可清除）`, current.date);
+  if (dateInput === null) return;
+
+  const priceText = String(priceInput).trim();
+  const dateText = String(dateInput).trim();
+
+  const nextRecord = {
+    price: priceText === '-' ? '' : priceText,
+    date: dateText === '-' ? '' : (dateText ? dateText : current.date)
+  };
+
+  setPurchaseRecord(sheet, type, item.name, nextRecord);
+
+  if (nextRecord.price || nextRecord.date) {
+    const collected = getCollected(sheet);
+    const key = getItemKey(sheet, type, item.name);
+    if (!collected.includes(key)) {
+      collected.push(key);
+      setCollected(sheet, collected);
+    }
+  }
+
+  if (sheet === currentSheet) {
+    renderCards(sheet);
+  }
+  updateCharTab(sheet);
+  updateOverallStats();
+  applyFilterAndSearch();
+}
+
 /* ========== SECTION BADGE ========== */
 function updateSectionBadge(sheet, type) {
   const data = (allData[sheet] || []).filter(it => (it.type || "无类型") === type);
   const c = getCollected(sheet);
-  const owned = data.filter(it => c.includes(`${sheet}|${type}|${it.name}`)).length;
+  const owned = data.filter(it => c.includes(getItemKey(sheet, type, it.name))).length;
   const el = document.getElementById(`owned-${type}`);
   if (el) el.textContent = owned;
 }
@@ -847,9 +1979,11 @@ function applyFilterAndSearch() {
 // CORS proxy list for China network compatibility
 const PROXY_LIST = [
   "", // direct
-  "https://api.allorigins.win/get?url=",
+  "https://api.allorigins.win/raw?url=",
   "https://api.codetabs.com/v1/proxy?quest=",
-  "https://thingproxy.freeboard.io/fetch/"
+  "https://corsproxy.io/?",
+  "https://api.allorigins.win/get?url=",
+  "https://thingproxy.freeboard.io/fetch="
 ];
 
 let proxyIndex = 0;
@@ -860,63 +1994,123 @@ function getProxyUrl(originalUrl) {
 }
 
 function parseSheetData(text) {
-  const match = text.match(/\{.*\}/s);
+  let raw = text;
+  try {
+    const wrapper = JSON.parse(text);
+    if (wrapper && typeof wrapper.contents === 'string') raw = wrapper.contents;
+  } catch {}
+  const match = raw.match(/\{.*\}/s);
   if (!match) throw new Error("Invalid response");
   return JSON.parse(match[0]);
 }
 
 function processRows(data) {
-  let rows = data.table.rows || [];
-  if (rows.length > 1) rows = rows.slice(1);
-  return rows.map(row => ({
+  const rows = data.table.rows || [];
+  return rows.map(row => normalizeSheetItem({
     type: row.c[0]?.v || "无类型",
     name: row.c[1]?.v || "",
+    itemCode: row.c[2]?.v || "",
     imgUrl: row.c[3]?.v || "",
-    size: row.c[5]?.v || ""
-  })).filter(it => it.name);
+    productUrl: row.c[4]?.v || "",
+    size: row.c[5]?.v || "",
+    jpName: row.c[6]?.v || ""
+  })).filter(Boolean);
+}
+
+function fetchSheetDataWithFallback(sheet) {
+  const originalUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheet)}`;
+  let attempt = 0;
+
+  function tryNext() {
+    if (attempt >= PROXY_LIST.length) {
+      return Promise.reject(new Error(`All proxies failed for ${sheet}`));
+    }
+    const currentProxy = PROXY_LIST[attempt++];
+    const url = currentProxy ? currentProxy + encodeURIComponent(originalUrl) : originalUrl;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+    return fetch(url, { signal: controller.signal })
+      .then(r => {
+        clearTimeout(timeoutId);
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.text();
+      })
+      .then(text => processRows(parseSheetData(text)))
+      .catch(err => {
+        clearTimeout(timeoutId);
+        if (attempt >= PROXY_LIST.length) throw err;
+        return tryNext();
+      });
+  }
+
+  return tryNext();
+}
+
+function fetchAndCacheSheet(sheet) {
+  if (sheetFetchPromises[sheet]) return sheetFetchPromises[sheet];
+  if (sheetSynced[sheet] && Array.isArray(allData[sheet])) {
+    return Promise.resolve(allData[sheet]);
+  }
+
+  const request = fetchSheetDataWithFallback(sheet)
+    .then(rows => {
+      allData[sheet] = rows;
+      setCachedSheetData(sheet, rows);
+      sheetSynced[sheet] = true;
+      return rows;
+    })
+    .finally(() => {
+      if (sheetFetchPromises[sheet] === request) {
+        delete sheetFetchPromises[sheet];
+      }
+    });
+
+  sheetFetchPromises[sheet] = request;
+  return request;
 }
 
 function loadSheet(sheet, retryCount = 0) {
-  document.getElementById("loading") && (document.getElementById("main-content").innerHTML =
-    `<div class="loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div><p>宝宝加载中${retryCount > 0 ? ` (重试${retryCount})` : ""}…</p></div>`);
+  const mainContent = document.getElementById("main-content");
+  const loadingMarkup = `<div class="loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div><p>宝宝加载中${retryCount > 0 ? ` (重试${retryCount})` : ""}…</p></div>`;
+  const cachedData = getCachedSheetData(sheet);
+  const existingData = Array.isArray(allData[sheet]) ? allData[sheet] : [];
 
-  if (allData[sheet]) {
+  if (existingData.length) {
     renderCards(sheet);
-    return;
+  } else if (cachedData.length) {
+    allData[sheet] = cachedData;
+    renderCards(sheet);
+    updateCharTab(sheet);
+    updateOverallStats();
+  } else if (mainContent) {
+    mainContent.innerHTML = loadingMarkup;
   }
 
-  const originalUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheet)}`;
-  const url = getProxyUrl(originalUrl);
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
-
-  fetch(url, { signal: controller.signal })
-    .then(r => {
-      clearTimeout(timeoutId);
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      return r.text();
-    })
-    .then(text => {
-      const data = parseSheetData(text);
-      allData[sheet] = processRows(data);
-      renderCards(sheet);
+  fetchAndCacheSheet(sheet)
+    .then(() => {
+      if (sheet === currentSheet) {
+        renderCards(sheet);
+      }
       updateCharTab(sheet);
       updateOverallStats();
-      proxyIndex = 0; // Reset proxy on success
     })
     .catch(err => {
       console.error(`Load failed for ${sheet}:`, err);
-      // Try next proxy or retry
-      if (proxyIndex < PROXY_LIST.length - 1) {
-        proxyIndex++;
-        console.log(`Switching to proxy ${proxyIndex}`);
-        loadSheet(sheet, retryCount);
-      } else if (retryCount < 2) {
-        proxyIndex = 0;
+      if (retryCount < 2) {
+        delete sheetSynced[sheet];
         setTimeout(() => loadSheet(sheet, retryCount + 1), 2000);
+      } else if (existingData.length || cachedData.length) {
+        if (!existingData.length && cachedData.length) {
+          allData[sheet] = cachedData;
+        }
+        if (sheet === currentSheet) {
+          renderCards(sheet);
+        }
+        updateCharTab(sheet);
+        updateOverallStats();
       } else {
-        // Final error
-        document.getElementById("main-content").innerHTML =
+        mainContent.innerHTML =
           `<div class="empty-state">
             <span class="emoji">😢</span>
             <div>加载失败，请检查网络连接</div>
@@ -933,28 +2127,26 @@ function loadSheet(sheet, retryCount = 0) {
 /* Preload all sheets for tab counts */
 function preloadAll() {
   SHEET_NAMES.forEach((s, idx) => {
-    if (allData[s]) return;
-    // Stagger requests to avoid rate limiting
+    const cachedData = getCachedSheetData(s);
+    if (cachedData.length && !allData[s]) {
+      allData[s] = cachedData;
+      updateCharTab(s);
+      updateOverallStats();
+    }
     setTimeout(() => {
-      const originalUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(s)}`;
-      const url = getProxyUrl(originalUrl);
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-      fetch(url, { signal: controller.signal })
-        .then(r => {
-          clearTimeout(timeoutId);
-          if (!r.ok) throw new Error(`HTTP ${r.status}`);
-          return r.text();
-        })
-        .then(text => {
-          const data = parseSheetData(text);
-          allData[s] = processRows(data);
+      fetchAndCacheSheet(s)
+        .then(() => {
+          if (s === currentSheet) {
+            renderCards(s);
+          }
           updateCharTab(s);
           updateOverallStats();
         })
-        .catch(() => {});
-    }, idx * 500); // 500ms delay between each request
+        .catch(err => {
+          delete sheetSynced[s];
+          console.warn(`Preload failed for ${s}:`, err);
+        });
+    }, idx * 500);
   });
 }
 
@@ -979,8 +2171,14 @@ function switchSheet(sheet) {
 
 /* ========== INIT ========== */
 function init() {
+  applyStoredBackground();
   buildCharTabs();
   updateAllCharTabs();
+  window.addEventListener("storage", event => {
+    if (!event.key || BACKGROUND_STORAGE_KEYS.includes(event.key) || event.key === BACKGROUND_OPACITY_STORAGE_KEY) {
+      applyStoredBackground();
+    }
+  });
 
   // Determine initial tab from URL
   const urlTab = new URLSearchParams(window.location.search).get("tab");
@@ -1024,6 +2222,81 @@ function init() {
     toTopBtn.classList.toggle("visible", window.scrollY > 300);
   });
   toTopBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+  // My Collection button
+  document.getElementById("my-collection-btn").addEventListener("click", showMyCollection);
+  document.getElementById("showcase-btn").addEventListener("click", showCollectionShowcase);
+  document.getElementById("timeline-btn").addEventListener("click", showPurchaseTimeline);
+  document.getElementById("background-settings-btn").addEventListener("click", showBackgroundSettings);
+}
+
+/* ========== MY COLLECTION MODAL ========== */
+function showMyCollection() {
+  const collected = getCollectedItems();
+
+  const totalCost = collected.reduce((sum, it) => {
+    const priceNum = parsePriceValue(it.purchasePrice);
+    return sum + (isNaN(priceNum) ? 0 : priceNum);
+  }, 0);
+
+  const modal = document.createElement("div");
+  modal.id = "collection-modal";
+  modal.style.cssText = `
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6); z-index: 1000;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px; backdrop-filter: blur(4px);
+  `;
+
+  if (collected.length === 0) {
+    modal.innerHTML = `
+      <div style="background:#fff;border-radius:20px;padding:30px;max-width:400px;width:100%;text-align:center;">
+        <div style="font-size:48px;margin-bottom:10px;">🎁</div>
+        <h3 style="margin:0 0 10px;color:#5f3f3a;">还没有收藏任何宝宝哦</h3>
+        <p style="color:#888;font-size:14px;margin:0 0 20px;">快去图鉴中点击卡片点亮收藏吧！</p>
+        <button onclick="document.getElementById('collection-modal').remove()" style="padding:10px 24px;background:var(--accent);color:#fff;border:none;border-radius:99px;cursor:pointer;">知道了</button>
+      </div>
+    `;
+  } else {
+    const listHtml = collected.map(it => `
+      <div style="display:flex;align-items:center;gap:12px;padding:10px;background:#fdf6f0;border-radius:12px;margin-bottom:8px;">
+        <img src="${it.imgUrl || 'https://i.postimg.cc/bv5xRs04/image.png'}" style="width:50px;height:50px;border-radius:8px;object-fit:cover;background:#fff;" />
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:600;color:#5f3f3a;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${it.displayName || toSimplifiedText(it.name)}</div>
+          <div style="font-size:12px;color:#888;">${it.sheetLabel} · ${it.displayType || toSimplifiedText(it.type)}</div>
+          ${it.purchaseDate ? `<div style="font-size:11px;color:#999;">📅 ${it.purchaseDate}</div>` : ''}
+        </div>
+        <div style="text-align:right;">
+          ${it.purchasePrice ? `<div style="font-weight:700;color:#e67e22;font-size:14px;">${formatPurchasePrice(it.purchasePrice)}</div>` : '<div style="font-size:12px;color:#bbb;">-</div>'}
+        </div>
+      </div>
+    `).join('');
+
+    modal.innerHTML = `
+      <div style="background:#fff;border-radius:20px;max-width:500px;width:100%;max-height:80vh;display:flex;flex-direction:column;overflow:hidden;">
+        <div style="padding:20px 20px 15px;border-bottom:1px solid #eee;background:linear-gradient(135deg,#fff6fa,#f5fbff);">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <h2 style="margin:0;color:#5f3f3a;font-size:18px;">⭐ 我的收藏 (${collected.length}个)</h2>
+            <button onclick="document.getElementById('collection-modal').remove()" style="background:none;border:none;font-size:24px;cursor:pointer;color:#888;">×</button>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:15px;font-size:13px;color:#666;">
+            <span>总花费: <b style="color:#e67e22;font-size:16px;">${formatCurrency(totalCost)}</b></span>
+          </div>
+        </div>
+        <div style="padding:15px 20px;overflow-y:auto;flex:1;">
+          ${listHtml}
+        </div>
+        <div style="padding:15px 20px;border-top:1px solid #eee;background:#fafafa;">
+          <button onclick="document.getElementById('collection-modal').remove()" style="width:100%;padding:12px;background:var(--accent);color:#fff;border:none;border-radius:99px;cursor:pointer;font-size:14px;">关闭</button>
+        </div>
+      </div>
+    `;
+  }
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) modal.remove();
+  });
+  document.body.appendChild(modal);
 }
 
 document.addEventListener("DOMContentLoaded", init);
